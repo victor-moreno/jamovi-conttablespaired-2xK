@@ -10,3 +10,8 @@ conttablespaired2xK/*.jmo
 dist/
 jamovi-conttables-2xK
 jamovi-src
+
+# keep local working-memory / design docs out of the public repo -- only
+# README.md is published; edit these locally, they just won't be pushed
+*.md
+!README.md

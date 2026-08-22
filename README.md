@@ -24,7 +24,6 @@ Reference category = the **first level**, for both rows and columns (they should
 categories, measured on two occasions). The **second** level is the "effect" category — the same
 0/1 convention used in `conttables2xK`. Letting `b`/`c` be the discordant-cell counts moving
 reference→effect / effect→reference: odds ratio = `b/c`, difference in proportions = `(b-c)/N`.
-See [DESIGN.md](DESIGN.md) for the full derivation, confidence-interval formulas, and RxR details.
 
 ## Installation
 
@@ -37,7 +36,6 @@ your OS and jamovi's bundled R version (check **Help -> About** in jamovi), then
 - `conttablespaired2xK/` — R package source (analysis definitions, R code, jamovi UI yaml,
   `data/` example datasets, `tests/testthat/`)
 - `tools/` — build and install helper scripts (adapted from `conttables2xK`)
-- `DESIGN.md`, `task_plan.md`, `findings.md`, `progress.md` — design notes and development log
 
 ## Building
 
