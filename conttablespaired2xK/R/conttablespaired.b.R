@@ -154,6 +154,8 @@ contTablesPairedClass <- R6::R6Class(
             odds$getColumn('ciu[oe]')$setSuperTitle(ciText)
             agree$getColumn('cil[kap]')$setSuperTitle(ciText)
             agree$getColumn('ciu[kap]')$setSuperTitle(ciText)
+            agree$getColumn('cil[wkap]')$setSuperTitle(ciText)
+            agree$getColumn('ciu[wkap]')$setSuperTitle(ciText)
             agree$getColumn('cil[obs]')$setSuperTitle(ciText)
             agree$getColumn('ciu[obs]')$setSuperTitle(ciText)
         },
@@ -482,10 +484,12 @@ contTablesPairedClass <- R6::R6Class(
                 unavailMsg <- .('The table must be square (rows and columns must share the same categories)')
                 agreeValues <- list(
                     `v[obs]`=NaN, `cil[obs]`='', `ciu[obs]`='',
-                    `v[kap]`=NaN, `cil[kap]`='', `ciu[kap]`='')
+                    `v[kap]`=NaN, `cil[kap]`='', `ciu[kap]`='',
+                    `v[wkap]`=NaN, `cil[wkap]`='', `ciu[wkap]`='')
                 agree$setRow(rowNo=1, values=agreeValues)
                 agree$addFootnote(rowNo=1, 'v[obs]', unavailMsg)
                 agree$addFootnote(rowNo=1, 'v[kap]', unavailMsg)
+                agree$addFootnote(rowNo=1, 'v[wkap]', unavailMsg)
 
             } else {
 
@@ -503,18 +507,49 @@ contTablesPairedClass <- R6::R6Class(
                     }
                 }
 
-                if (self$options$kappa) {
+                if (self$options$kappa || self$options$kappaWeighted) {
+                    # vcd::Kappa() computes both the unweighted kappa and a
+                    # weighted kappa in one call; its default weighting
+                    # scheme ("Equal-Spacing") IS the linear-weights kappa
+                    # requested here, so one shared call serves both options.
                     kap <- try(vcd::Kappa(result), silent=TRUE)
-                    if (base::inherits(kap, 'try-error')) {
+                    kapError <- base::inherits(kap, 'try-error')
+                    if ( ! kapError)
+                        kapCi <- confint(kap, level=ciWidth)
+                }
+
+                if (self$options$kappa) {
+                    if (kapError) {
                         agreeValues[['v[kap]']] <- NaN
                         agreeValues[['cil[kap]']] <- ''
                         agreeValues[['ciu[kap]']] <- ''
                         agree$addFootnote(rowNo=1, 'v[kap]', .('Could not be computed'))
                     } else {
                         agreeValues[['v[kap]']] <- unname(kap$Unweighted['value'])
-                        ci <- confint(kap, level=ciWidth)
-                        agreeValues[['cil[kap]']] <- ci['Unweighted', 'lwr']
-                        agreeValues[['ciu[kap]']] <- ci['Unweighted', 'upr']
+                        agreeValues[['cil[kap]']] <- kapCi['Unweighted', 'lwr']
+                        agreeValues[['ciu[kap]']] <- kapCi['Unweighted', 'upr']
+                    }
+                }
+
+                if (self$options$kappaWeighted) {
+                    if ( ! isRxR) {
+                        # linear weights need more than 2 categories to
+                        # differ from the unweighted kappa above (with 2
+                        # categories they are numerically identical)
+                        agreeValues[['v[wkap]']] <- NaN
+                        agreeValues[['cil[wkap]']] <- ''
+                        agreeValues[['ciu[wkap]']] <- ''
+                        agree$addFootnote(rowNo=1, 'v[wkap]', .('Available for tables with more than 2 categories'))
+                    } else if (kapError) {
+                        agreeValues[['v[wkap]']] <- NaN
+                        agreeValues[['cil[wkap]']] <- ''
+                        agreeValues[['ciu[wkap]']] <- ''
+                        agree$addFootnote(rowNo=1, 'v[wkap]', .('Could not be computed'))
+                    } else {
+                        agreeValues[['v[wkap]']] <- unname(kap$Weighted['value'])
+                        agreeValues[['cil[wkap]']] <- kapCi['Weighted', 'lwr']
+                        agreeValues[['ciu[wkap]']] <- kapCi['Weighted', 'upr']
+                        agree$addFootnote(rowNo=1, 'v[wkap]', .('Categories are assumed to be well ordered (linear weights)'))
                     }
                 }
 

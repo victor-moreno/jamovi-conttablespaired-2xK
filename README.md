@@ -9,7 +9,8 @@ extends it to a **non-binary paired response** (RxR tables, not just 2x2) with:
   2x2 tables — plus an optional exact odds ratio and an exact McNemar test based on the binomial
 - **marginal percentages** in the frequency table, the quantity that actually matters for a paired
   design (not the within-row/within-column percentages)
-- **observed agreement** and **Cohen's kappa**, each with a confidence interval
+- **observed agreement**, **Cohen's kappa**, and an optional **weighted kappa (linear weights)**
+  for tables with more than 2 categories, each with a confidence interval
 - for RxR tables: **Bowker's test of symmetry** and the **Stuart-Maxwell test** of marginal
   homogeneity — the natural generalizations of McNemar's χ² and the difference-in-proportions test
   (both reduce to the same value as McNemar's χ² for a 2x2 table)
@@ -56,7 +57,7 @@ bash tools/release.sh 4.6.0             # + publish a GitHub release with those 
 
 ## Dependencies
 
-- `vcd` (Imports) — Cohen's kappa
+- `vcd` (Imports) — Cohen's kappa and weighted kappa
 - `exact2x2` (Suggests) — only needed for the optional exact odds ratio
 
 ## Acknowledgment

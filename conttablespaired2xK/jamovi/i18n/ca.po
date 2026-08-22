@@ -68,10 +68,18 @@ msgstr "Concordança"
 msgid "Available for 2x2 tables only"
 msgstr "Disponible només per a taules 2x2"
 
+#: R/conttablespaired.b.R
+msgid "Available for tables with more than 2 categories"
+msgstr "Disponible només per a taules amb més de 2 categories"
+
 #: contTablesPaired/options/symmetry.title
 #: contTablesPaired/results/test.columns.content
 msgid "Bowker's test of symmetry"
 msgstr "Prova de simetria de Bowker"
+
+#: R/conttablespaired.b.R
+msgid "Categories are assumed to be well ordered (linear weights)"
+msgstr "S'assumeix que les categories estan ben ordenades (pesos lineals)"
 
 #: contTablesPaired/options/kappa.title
 #: contTablesPaired/results/agree.columns.content
@@ -294,3 +302,11 @@ msgstr "Valor"
 #: contTablesPaired/results/test.columns.content
 msgid "McNemar χ² continuity correction"
 msgstr "χ² de McNemar amb correcció de continuïtat"
+
+#: contTablesPaired/results/agree.columns.content
+msgid "Weighted kappa"
+msgstr "Kappa ponderat"
+
+#: contTablesPaired/options/kappaWeighted.title
+msgid "Weighted kappa (linear weights)"
+msgstr "Kappa ponderat (pesos lineals)"

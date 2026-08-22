@@ -125,7 +125,7 @@ testthat::test_that('RxR tables get Bowker/Stuart-Maxwell and kappa, not OR/DP',
     r <- conttablespaired2xK::contTablesPaired(
         data=dat, rows='r1', cols='r2', counts='n',
         symmetry=TRUE, margHom=TRUE, oddsRatio=TRUE, diffProp=TRUE,
-        agreement=TRUE, kappa=TRUE)
+        agreement=TRUE, kappa=TRUE, kappaWeighted=TRUE)
 
     test <- r$test$asDF
     testthat::expect_equal(test[['value[bow]']], 0.38803088, tolerance=1e-5)
@@ -141,6 +141,26 @@ testthat::test_that('RxR tables get Bowker/Stuart-Maxwell and kappa, not OR/DP',
     testthat::expect_equal(agree[['v[obs]']], 60 / 87, tolerance=1e-9)
     testthat::expect_equal(agree[['cil[obs]']], 0.5861618, tolerance=1e-5)
     testthat::expect_equal(agree[['ciu[obs]']], 0.7771084, tolerance=1e-5)
+
+    # oracle: vcd::Kappa(mat3)$Weighted, confint(..., level=0.95)['Weighted', ]
+    # (vcd's default "Equal-Spacing" weighting IS linear-weights kappa)
+    testthat::expect_equal(agree[['v[wkap]']], 0.5556951, tolerance=1e-5)
+    testthat::expect_equal(agree[['cil[wkap]']], 0.4055421, tolerance=1e-5)
+    testthat::expect_equal(agree[['ciu[wkap]']], 0.7058528, tolerance=1e-5)
+})
+
+testthat::test_that('weighted kappa is unavailable for a 2x2 table (identical to unweighted)', {
+
+    dat <- data.frame(
+        s1 = factor(c('Approve', 'Approve', 'Disapprove', 'Disapprove'), c('Approve', 'Disapprove')),
+        s2 = factor(c('Approve', 'Disapprove', 'Approve', 'Disapprove'), c('Approve', 'Disapprove')),
+        n  = c(794, 150, 86, 570))
+
+    r <- conttablespaired2xK::contTablesPaired(
+        data=dat, rows='s1', cols='s2', counts='n', kappaWeighted=TRUE)
+
+    agree <- r$agree$asDF
+    testthat::expect_true(is.nan(agree[['v[wkap]']]))
 })
 
 testthat::test_that('a non-square table degrades gracefully (no error, NaN + footnotes)', {

@@ -35,6 +35,16 @@ refs:
         pages: 572-574
         url: https://doi.org/10.1080/01621459.1948.10483284
 
+    cohen1968:
+        type: 'article'
+        author: Cohen, J.
+        year: 1968
+        title: 'Weighted kappa: Nominal scale agreement with provision for scaled disagreement or partial credit'
+        publisher: Psychological Bulletin
+        volume: '70(4)'
+        pages: 213-220
+        url: https://doi.org/10.1037/h0026256
+
     stuart1955:
         type: 'article'
         author: Stuart, A.

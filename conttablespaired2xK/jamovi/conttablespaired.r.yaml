@@ -225,7 +225,7 @@ items:
       title: Agreement
       type: Table
       description: a table of agreement measures
-      visible: (agreement || kappa)
+      visible: (agreement || kappa || kappaWeighted)
 
       clearWith:
         - rows
@@ -274,3 +274,24 @@ items:
           title: Upper
           superTitle: Confidence Intervals
           visible: (kappa && ci)
+
+        - name: t[wkap]
+          title: ''
+          type: text
+          content: Weighted kappa
+          visible: (kappaWeighted)
+          refs: [ vcd, cohen1968 ]
+
+        - name: v[wkap]
+          title: Value
+          visible: (kappaWeighted)
+
+        - name: cil[wkap]
+          title: Lower
+          superTitle: Confidence Intervals
+          visible: (kappaWeighted && ci)
+
+        - name: ciu[wkap]
+          title: Upper
+          superTitle: Confidence Intervals
+          visible: (kappaWeighted && ci)

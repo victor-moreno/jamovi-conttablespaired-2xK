@@ -258,4 +258,14 @@ options:
           R: >
             `TRUE` or `FALSE` (default), provide Cohen's kappa, with a
             confidence interval
+
+    - name: kappaWeighted
+      title: Weighted kappa (linear weights)
+      type: Bool
+      default: false
+      description:
+          R: >
+            `TRUE` or `FALSE` (default), provide a weighted kappa using
+            linear weights, with a confidence interval (tables with more
+            than 2 categories only). Categories are assumed to be ordered
 ...
