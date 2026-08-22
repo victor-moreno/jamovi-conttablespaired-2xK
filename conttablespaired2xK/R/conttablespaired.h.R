@@ -278,7 +278,8 @@ contTablesPairedResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6
                         `title`="", 
                         `type`="text", 
                         `content`="Bowker's test of symmetry", 
-                        `visible`="(symmetry)"),
+                        `visible`="(symmetry)", 
+                        `refs`="bowker1948"),
                     list(
                         `name`="value[bow]", 
                         `title`="Value", 
@@ -299,7 +300,8 @@ contTablesPairedResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6
                         `title`="", 
                         `type`="text", 
                         `content`="Stuart-Maxwell test of marginal homogeneity", 
-                        `visible`="(margHom)"),
+                        `visible`="(margHom)", 
+                        `refs`="stuart1955"),
                     list(
                         `name`="value[sm]", 
                         `title`="Value", 
@@ -440,7 +442,9 @@ contTablesPairedResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6
                         `type`="text", 
                         `content`="Cohen's kappa", 
                         `visible`="(kappa)", 
-                        `refs`="vcd"),
+                        `refs`=list(
+                            "vcd",
+                            "mchugh2012")),
                     list(
                         `name`="v[kap]", 
                         `title`="Value", 

@@ -195,12 +195,31 @@ doesn't affect the real GUI. Made `tools/install.sh docker` self-sufficient
 (copies data/+tests/, runs the full suite) instead of needing a manual
 second step each time. 43/43 local + 43/43 Docker.
 
+Pushed to GitHub: https://github.com/victor-moreno/jamovi-conttablespaired-2xK
+(public, commit 01184ab at push time), via `gh repo create` +
+`git push -u origin main`. Had to switch the remote from SSH (gh's default
+protocol) to HTTPS first -- SSH failed with "Host key verification failed:
+Operation not permitted" on ~/.ssh/known_hosts (sandbox-blocked, matches the
+user's own CLAUDE.md note about no ~/.ssh access; HTTPS works fine since gh
+carries its own token auth).
+
+### Phase 12 — fix broken [0] reference marker (complete)
+User reported a broken `[0]` reference appearing when kappa is enabled.
+Root cause: `refs: vcd` / `refs: exact2x2` had been in r.yaml since the
+first build, but `jamovi/00refs.yaml` never existed -- so BOTH were broken,
+not just kappa. Fixed by creating `00refs.yaml` (reusing jmv's own
+vcd/exact2x2 entries verbatim + 3 new ones: McHugh 2012 for kappa, Bowker
+1948, Stuart 1955), wired via `refs:`/`refs: [...]` on the relevant r.yaml
+columns. Verified 3 ways: generated .h.R embeds the refs= args correctly,
+the built .jmo's refs.yaml has the real citation text, and the build log
+now prints "wrote: 00jmv.R" -- confirmed via jamovi-skill docs this is
+the tell that reference definitions actually reached R. 43/43 tests still
+pass (citation-only change).
+
 ## Next Step
-Push to GitHub: victor-moreno/jamovi-conttablespaired-2xK via `gh`, mirroring
-conttables2xK's repo conventions (public, no GitHub-side description set).
-Verification method going forward: Docker (`bash tools/install.sh docker`,
-now fully self-contained), per user's explicit instruction ("si funciona en
-docker, funcionará en desktop") — saved as a feedback memory. Desktop
-sideload (`conttablespaired2xK_0.1.0.jmo`, rebuild via
-`bash tools/install.sh desktop`) remains available for the user's own
-optional visual GUI check, but is no longer the default verification path.
+Commit and push Phase 12. Verification method: Docker
+(`bash tools/install.sh docker`, self-contained), per user's standing
+instruction ("si funciona en docker, funcionará en desktop") — saved as a
+feedback memory. Desktop sideload remains available for the user's own
+optional visual GUI check (including confirming the [0] marker is now a
+real citation), but is not the default verification path.

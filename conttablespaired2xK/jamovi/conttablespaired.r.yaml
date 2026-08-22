@@ -92,6 +92,7 @@ items:
           type: 'text'
           content: Bowker's test of symmetry
           visible: (symmetry)
+          refs: bowker1948
 
         - name: value[bow]
           title: Value
@@ -113,6 +114,7 @@ items:
           type: 'text'
           content: Stuart-Maxwell test of marginal homogeneity
           visible: (margHom)
+          refs: stuart1955
 
         - name: value[sm]
           title: Value
@@ -257,7 +259,7 @@ items:
           type: text
           content: Cohen's kappa
           visible: (kappa)
-          refs: vcd
+          refs: [ vcd, mchugh2012 ]
 
         - name: v[kap]
           title: Value

@@ -1,5 +1,31 @@
 # Progress log
 
+## 2026-08-22 (fix broken [0] reference marker)
+
+User reported: activating kappa shows a `[0]` — a broken/unresolved reference marker. Root cause:
+`conttablespaired.r.yaml` had `refs: vcd` (kappa) and `refs: exact2x2` (exact odds ratio) from the
+very first build, but the package never had a `jamovi/00refs.yaml` defining what those keys
+actually cite — so BOTH were broken from day one, not just kappa (the user just happened to notice
+it via kappa first).
+
+Fixed by creating `jamovi/00refs.yaml` with a top-level `refs:` key (required — silently produces
+nothing without it, per jamovi-skill's own trap list). Reused jmv's own `vcd`/`exact2x2` entries
+verbatim (found via `jamovi-src/jmv/jamovi/00refs.yaml` — jmv cites both too), and added the three
+citations the user asked for: McHugh (2012) for kappa, Bowker (1948) for the symmetry test, Stuart
+(1955) for Stuart-Maxwell. Wired them onto the relevant r.yaml columns using `refs: [ vcd,
+mchugh2012 ]` list syntax (confirmed this multi-ref syntax works by finding jmv's own
+`refs: [ BF, btt ]` usage in `ttestis.r.yaml` etc.).
+
+Verified the fix landed at three independent levels rather than trusting the compile log alone:
+(1) the generated `.h.R` embeds `refs="bowker1948"` etc. directly in the `addColumn()` calls,
+confirming the compiler read the r.yaml correctly; (2) the extracted `.jmo`'s `refs.yaml` (compiled
+from `00refs.yaml`) contains the actual citation text for all 5 keys; (3) noticed the build log now
+prints `wrote: 00jmv.R` — which jamovi-skill's own docs flag as *the* tell that reference
+definitions actually reached R (this file didn't get written on any earlier build, before
+`00refs.yaml` existed). Committed `R/00jmv.R` as a generated-but-tracked file, matching how `.h.R`
+is already handled. 43/43 tests pass locally and in Docker (unaffected — this was a
+citation/footnote-only change, no computation touched).
+
 ## 2026-08-22 (example datasets, default-value changes, GitHub prep)
 
 User changed 4 option defaults themselves in a.yaml (symmetry/margHom/agreement/kappa: true ->

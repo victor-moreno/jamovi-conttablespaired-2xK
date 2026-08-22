@@ -1,0 +1,46 @@
+refs:
+    vcd:
+        type: 'software'
+        author: Meyer, D., Zeileis, A., Hornik, K., Gerber, F., & Friendly, M.
+        year: 2024
+        title: "vcd: Visualizing Categorical Data"
+        publisher: '[R package]. Retrieved from https://cran.r-project.org/package=vcd'
+        url: https://cran.r-project.org/package=vcd
+
+    exact2x2:
+        type: 'software'
+        author: Fay, M. P., Hunsberger, S. A., Nason, M., Gabriel, E., & Lumbard, K.
+        year: 2025
+        title: "exact2x2: Exact Tests and Confidence Intervals for 2x2 Tables"
+        publisher: '[R package]. Retrieved from https://cran.r-project.org/package=exact2x2'
+        url: https://cran.r-project.org/package=exact2x2
+
+    mchugh2012:
+        type: 'article'
+        author: McHugh, M. L.
+        year: 2012
+        title: 'Interrater reliability: the kappa statistic'
+        publisher: Biochemia Medica
+        volume: '22(3)'
+        pages: 276-282
+        url: https://doi.org/10.11613/BM.2012.031
+
+    bowker1948:
+        type: 'article'
+        author: Bowker, A. H.
+        year: 1948
+        title: 'A test for symmetry in contingency tables'
+        publisher: Journal of the American Statistical Association
+        volume: '43(244)'
+        pages: 572-574
+        url: https://doi.org/10.1080/01621459.1948.10483284
+
+    stuart1955:
+        type: 'article'
+        author: Stuart, A.
+        year: 1955
+        title: 'A test for homogeneity of the marginal distributions in a two-way classification'
+        publisher: Biometrika
+        volume: '42(3-4)'
+        pages: 412-416
+        url: https://doi.org/10.1093/biomet/42.3-4.412

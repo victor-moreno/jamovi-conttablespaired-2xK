@@ -137,6 +137,24 @@ as described above.
 - `vcd` (Imports) — Cohen's kappa (`vcd::Kappa`)
 - `exact2x2` (Suggests) — only needed if the "Exact odds ratio (conditional MLE)" checkbox is used
 
+## References
+
+`jamovi/00refs.yaml` provides the citations that back the `refs:` tags on the Cohen's kappa,
+Bowker's test, Stuart-Maxwell test, and exact-odds-ratio rows (rendered in jamovi as numbered
+footnotes at the bottom of the results). Without this file present, those `refs:` tags resolve to
+nothing and show as a broken `[0]` marker instead of a citation — which is what happened before
+this file existed, since neither `vcd` nor `exact2x2` had one despite being referenced in
+`conttablespaired.r.yaml` from the start. `vcd` and `exact2x2`'s entries are reused verbatim from
+jmv's own `00refs.yaml` (it already cites both, since jmv's own analyses use them too); the
+methodology references were added for this module specifically:
+
+- McHugh, M. L. (2012). Interrater reliability: the kappa statistic. *Biochemia Medica*, 22(3),
+  276-282. https://doi.org/10.11613/BM.2012.031
+- Bowker, A. H. (1948). A test for symmetry in contingency tables. *Journal of the American
+  Statistical Association*, 43(244), 572-574. https://doi.org/10.1080/01621459.1948.10483284
+- Stuart, A. (1955). A test for homogeneity of the marginal distributions in a two-way
+  classification. *Biometrika*, 42(3-4), 412-416. https://doi.org/10.1093/biomet/42.3-4.412
+
 ## Naming: package vs. analysis identifier
 
 Following the same convention as `conttables2xK`: the **package/repo** is rebranded
