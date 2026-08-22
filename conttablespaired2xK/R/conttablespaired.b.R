@@ -92,6 +92,20 @@ contTablesPairedClass <- R6::R6Class(
                 type='integer')
 
             freqs$addColumn(
+                name='.total[pcRow]',
+                title=.('Total'),
+                type='number',
+                format='pc',
+                visible='(pcRow)')
+
+            freqs$addColumn(
+                name='.total[pcCol]',
+                title=.('Total'),
+                type='number',
+                format='pc',
+                visible='(pcCol)')
+
+            freqs$addColumn(
                 name='.total[pcMarg]',
                 title=.('Total'),
                 type='number',
@@ -211,6 +225,8 @@ contTablesPairedClass <- R6::R6Class(
                     values <- c(values, pcMarg)
 
                     values[['.total[count]']] <- unname(rowTotal)
+                    values[['.total[pcRow]']] <- 1
+                    values[['.total[pcCol]']] <- unname(rowTotal) / N
                     values[['.total[pcMarg]']] <- unname(rowTotal) / N
 
                     freqs$setRow(rowNo=rowNo, values=values)
@@ -237,6 +253,8 @@ contTablesPairedClass <- R6::R6Class(
             names(pcMarg) <- paste0(1:nCols, '[pcMarg]')
 
             values <- c(values, pcRow, pcCol, pcMarg)
+            values[['.total[pcRow]']] <- 1
+            values[['.total[pcCol]']] <- 1
             values[['.total[pcMarg]']] <- 1
 
             freqs$setRow(rowNo=freqRowNo, values=values)

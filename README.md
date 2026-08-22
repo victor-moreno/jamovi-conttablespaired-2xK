@@ -85,6 +85,14 @@ and the Total *row* shows each column category's share of N (the column variable
 proportion) — interior cells are left blank, since a marginal percentage isn't defined for an
 individual cell.
 
+Separately: jmv's original `contTablesPaired` never put a percentage in the Total column/row at
+all, even with `% within row`/`% within column` on — only a count. `conttables2xK` (independent
+samples) does show one there (trivially 100% under `% within row`, and the row's marginal share of
+N under `% within column` — a side effect of how jmv's own row/column-normalized total is defined,
+not a distinct feature). This module now matches that: turning on **Row**/**Column** percentages
+also fills in the Total column's `% within row`/`% within column` cells, on top of (not instead of)
+the dedicated **Marginal** option above.
+
 ## Example datasets
 
 Two fabricated datasets ship with the module (**Open -> Data Library** in jamovi) to try each

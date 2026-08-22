@@ -216,10 +216,22 @@ now prints "wrote: 00jmv.R" -- confirmed via jamovi-skill docs this is
 the tell that reference definitions actually reached R. 43/43 tests still
 pass (citation-only change).
 
+Phase 12 committed and pushed (50b3462).
+
+### Phase 13 — Total column % for pcRow/pcCol (complete)
+User: jmv's original never showed % in the Total column even with row/col
+% on (count only) -- conttables2xK does. Replicated conttables2xK's exact
+mechanism (`.total[pcRow]`=1 trivially, `.total[pcCol]`=rowTotal/N as an
+incidental side effect of its own total-column definition) rather than
+inventing a new one. Added `.total[pcRow]`/`.total[pcCol]` columns gated on
+pcRow/pcCol respectively, independent of the existing `pcMarg` feature
+(left untouched per explicit instruction). Confirmed `.total[pcCol]`
+numerically matches `.total[pcMarg]` (0.59/0.41 on the survey example) --
+same underlying quantity, different option/column. 45/45 local + Docker.
+
 ## Next Step
-Commit and push Phase 12. Verification method: Docker
+Commit and push Phase 13. Verification method: Docker
 (`bash tools/install.sh docker`, self-contained), per user's standing
 instruction ("si funciona en docker, funcionará en desktop") — saved as a
 feedback memory. Desktop sideload remains available for the user's own
-optional visual GUI check (including confirming the [0] marker is now a
-real citation), but is not the default verification path.
+optional visual GUI check, but is not the default verification path.

@@ -91,6 +91,25 @@ testthat::test_that('marginal percentages are blank on interior cells, populated
     testthat::expect_equal(unname(unlist(freqs[3, c('1[pcMarg]', '2[pcMarg]')])), c(880 / 1600, 720 / 1600))
 })
 
+testthat::test_that('the Total column shows % for pcRow/pcCol, matching conttables2xK', {
+
+    # the original contTablesPaired only ever put a count in the Total
+    # column, never a percentage, even with pcRow/pcCol on -- conttables2xK
+    # (independent samples) does show one there (trivially 1 under pcRow,
+    # and the row's marginal share of N under pcCol); replicate that here
+
+    dat <- data.frame(
+        s1 = factor(c('Approve', 'Approve', 'Disapprove', 'Disapprove'), c('Approve', 'Disapprove')),
+        s2 = factor(c('Approve', 'Disapprove', 'Approve', 'Disapprove'), c('Approve', 'Disapprove')),
+        n  = c(794, 150, 86, 570))
+
+    r <- conttablespaired2xK::contTablesPaired(data=dat, rows='s1', cols='s2', counts='n', pcRow=TRUE, pcCol=TRUE)
+    freqs <- r$freqs$asDF
+
+    testthat::expect_equal(freqs[['.total[pcRow]']], c(1, 1, 1))
+    testthat::expect_equal(freqs[['.total[pcCol]']], c(944 / 1600, 656 / 1600, 1))
+})
+
 testthat::test_that('RxR tables get Bowker/Stuart-Maxwell and kappa, not OR/DP', {
 
     # cross-checked against DescTools::StuartMaxwellTest (chi-sq=0.31718,

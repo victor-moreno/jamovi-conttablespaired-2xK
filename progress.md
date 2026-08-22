@@ -1,5 +1,26 @@
 # Progress log
 
+## 2026-08-22 (Total column missing % for pcRow/pcCol)
+
+User: jmv's original `contTablesPaired` never showed a percentage in the Total column, even with
+row/column % turned on (only ever a count) -- a bug, since `conttables2xK` (independent samples)
+does show one there. Asked to add it, explicitly keeping the existing dedicated "Marginal" %
+feature untouched.
+
+Traced conttables2xK's exact mechanism (`R/conttables.b.R`): its `.total[pcRow]` is always
+trivially 1 (each row is 100% of itself under row-normalization) and its `.total[pcCol]` ends up
+being `rowTotal/grandTotal` -- the row's marginal share of N -- as an incidental side effect of how
+the column-normalized total is defined, not a deliberately separate "marginal %" feature. Replicated
+this exactly in the paired module: added `.total[pcRow]`/`.total[pcCol]` columns (visible under
+`pcRow`/`pcCol` respectively, independent of the `pcMarg` option), populated the same way (1 for
+pcRow always; rowTotal/N for pcCol per row, 1 on the Total row). Verified against the survey
+example: `.total[pcCol]` for the two rows comes out to 0.59/0.41 -- numerically identical to what
+`.total[pcMarg]` already showed, confirming this is the same quantity conttables2xK exposes via a
+different (arguably confusingly-named) column, not a new computation.
+
+New test added (existing "marginal percentages" test left untouched, per the user's instruction to
+leave that feature as-is). 45/45 tests pass locally and in Docker.
+
 ## 2026-08-22 (fix broken [0] reference marker)
 
 User reported: activating kappa shows a `[0]` — a broken/unresolved reference marker. Root cause:
