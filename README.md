@@ -12,7 +12,8 @@ measures (mirroring [conttables2xK](../jamovi-conttables-2xK)), and extends it �
 - **marginal percentages** in the frequency table (the percentages that actually matter for a
   paired design — row/column totals as a share of N — as opposed to the within-row/within-column
   percentages, which compare the wrong margin for matched data);
-- **observed agreement** and **Cohen's kappa**, with a confidence interval;
+- **observed agreement** (as a 0-1 proportion, not a percentage — consistent with kappa's own
+  scale and confidence interval) and **Cohen's kappa**, with a confidence interval;
 - for **RxR tables** (more than two paired categories): **Bowker's test of symmetry** and the
   **Stuart-Maxwell test of marginal homogeneity**, the natural generalizations of McNemar's χ² and
   the difference-in-proportions test respectively.

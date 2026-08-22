@@ -158,6 +158,15 @@ wrong. Fixed to compute for any `square` table; removed the now-dead
 and tests (37/37 local + 37/37 in Docker, per user's standing "use Docker"
 instruction). See progress.md for full detail.
 
+### Phase 9 — blank pcMarg cells, agreement as proportion, kappa CI (complete)
+Three small requests: (1) interior freqs cells show '' not NaN when
+pcMarg is on — required restructuring the values-list build since c() on
+mixed numeric/character coerces everything; (2) observed agreement now
+shown as a 0-1 proportion (removed r.yaml `format: pc`) to match kappa's
+scale; (3) kappa's 95% CI was already implemented since the first build --
+verified fresh rather than assumed, told the user instead of no-op'ing.
+37/37 local + 37/37 Docker. See progress.md for full detail.
+
 ## Next Step
 Verification method going forward: Docker (`bash tools/install.sh docker`
 + copy `tests/` in + `testthat::test_dir()`), per user's explicit

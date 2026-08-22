@@ -193,17 +193,21 @@ contTablesPairedClass <- R6::R6Class(
                     rowTotal <- rowTotals[rowNo]
                     pcRow <- counts / rowTotal
                     pcCol <- counts / colTotals
-                    # marginal % is only meaningful for the row/column
-                    # aggregate, not for an individual interior cell
-                    pcMarg <- rep(NaN, length(counts))
 
                     names(counts) <- paste0(seq_len(length(counts)), '[count]')
                     names(pcRow)  <- paste0(seq_len(length(counts)), '[pcRow]')
                     names(pcCol)  <- paste0(seq_len(length(counts)), '[pcCol]')
-                    names(pcMarg) <- paste0(seq_len(length(counts)), '[pcMarg]')
 
-                    values <- c(counts, pcRow, pcCol, pcMarg)
+                    values <- c(counts, pcRow, pcCol)
                     values <- as.list(values)
+
+                    # marginal % is only meaningful for the row/column
+                    # aggregate, not for an individual interior cell -- left
+                    # blank ('', not NaN) rather than shown as "not a number"
+                    pcMarg <- as.list(rep('', length(counts)))
+                    names(pcMarg) <- paste0(seq_len(length(counts)), '[pcMarg]')
+                    values <- c(values, pcMarg)
+
                     values[['.total[count]']] <- unname(rowTotal)
                     values[['.total[pcMarg]']] <- unname(rowTotal) / N
 

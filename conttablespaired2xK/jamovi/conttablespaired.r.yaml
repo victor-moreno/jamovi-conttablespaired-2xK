@@ -239,8 +239,7 @@ items:
           visible: (agreement)
 
         - name: v[obs]
-          title: '%'
-          format: pc
+          title: Value
           visible: (agreement)
 
         - name: t[kap]

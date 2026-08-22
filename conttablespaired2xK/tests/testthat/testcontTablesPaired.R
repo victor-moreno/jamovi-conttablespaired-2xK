@@ -61,8 +61,8 @@ testthat::test_that('marginal percentages are blank on interior cells, populated
     r <- conttablespaired2xK::contTablesPaired(data=dat, rows='s1', cols='s2', counts='n', pcMarg=TRUE)
     freqs <- r$freqs$asDF
 
-    testthat::expect_true(all(is.nan(freqs[['1[pcMarg]']][1:2])))
-    testthat::expect_true(all(is.nan(freqs[['2[pcMarg]']][1:2])))
+    testthat::expect_true(all(is.na(freqs[['1[pcMarg]']][1:2])))
+    testthat::expect_true(all(is.na(freqs[['2[pcMarg]']][1:2])))
     testthat::expect_equal(freqs[['.total[pcMarg]']][1:2], c(944 / 1600, 656 / 1600))
     testthat::expect_equal(unname(unlist(freqs[3, c('1[pcMarg]', '2[pcMarg]')])), c(880 / 1600, 720 / 1600))
 })

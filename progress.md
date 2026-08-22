@@ -1,5 +1,30 @@
 # Progress log
 
+## 2026-08-22 (3 small fixes: blank pcMarg cells, agreement as proportion, kappa CI)
+
+User asked for three things:
+1. Interior cells in the freqs table, when marginal % is requested, should show blank ('') instead
+   of NaN. Fixed: had to restructure the values-building code since `c()` on a mix of numeric and
+   character vectors coerces everything to character — built the numeric part (counts/pcRow/pcCol)
+   first, then merged in a separately-built list of `''` for pcMarg's interior cells via list
+   concatenation (`c(list, list)`, which preserves each element's type unlike atomic-vector `c()`).
+   Confirmed `''` round-trips to `NA` (not the literal string) in a Number-typed column's `asDF` —
+   exactly the "renders as blank, not as text" outcome wanted.
+2. Observed agreement should show as a 0-1 proportion, not a %, to match kappa's scale. The
+   underlying computed value was ALREADY a proportion (`sum(diag(mat))/N`) — only the r.yaml
+   column had `format: pc` (a pure display multiplier) turning it into a percentage on screen.
+   Removed `format: pc`, retitled the column 'Value' (matching kappa's own column). No R code or
+   test changes needed for this one, since `asDF` always returned the raw proportion regardless of
+   display format.
+3. Add a 95% CI for kappa — already implemented since the very first build
+   (`cil[kap]`/`ciu[kap]`, populated via `confint(vcd::Kappa(...), level=ciWidth)`). Verified with a
+   fresh headless run it's genuinely there and populated (0.664, 0.735 on the worked example) rather
+   than assuming from memory — told the user it was already done instead of silently no-op'ing.
+
+Updated the pcMarg test (`is.nan()` -> `is.na()`) and both es/ca i18n files (dropped the now-stale
+`agree.columns.title` reference comment on the shared "%" msgid, still used by the ciWidth suffix).
+Verified both locally (37/37) and in Docker (37/37), per standing instruction.
+
 ## 2026-08-22 (bug fix — Bowker/Stuart-Maxwell showed NaN for 2x2)
 
 User caught a real design bug: Bowker's test and Stuart-Maxwell were gated to `isRxR` (R > 2)

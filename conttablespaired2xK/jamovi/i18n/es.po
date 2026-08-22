@@ -12,7 +12,6 @@ msgid "{ciWidth}% Confidence Intervals"
 msgstr "Intervalos de Confianza del {ciWidth}%"
 
 #: contTablesPaired/ui[1][1][0]/ci/ciWidth.suffix
-#: contTablesPaired/results/agree.columns.title
 msgid "%"
 msgstr "%"
 
