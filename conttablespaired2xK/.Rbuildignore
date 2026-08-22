@@ -1,0 +1,12 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^\.git$
+^\.gitignore$
+^\.claude$
+^\.cache$
+^\.tmp$
+^\.venv$
+^\.envrc$
+^conttablespaired2xK_[0-9.]+\.tar\.gz$
+^conttablespaired2xK\.Rcheck$
+^conttablespaired2xK_[0-9.]+\.jmo$

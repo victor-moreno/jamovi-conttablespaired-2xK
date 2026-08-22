@@ -1,8 +1,8 @@
 
 #' @importFrom jmvcore .
-contTablesPairedORClass <- R6::R6Class(
-    "contTablesPairedORClass",
-    inherit = contTablesPairedORBase,
+contTablesPairedClass <- R6::R6Class(
+    "contTablesPairedClass",
+    inherit = contTablesPairedBase,
     private = list(
         .cleanData = function() {
 

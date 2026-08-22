@@ -1,0 +1,296 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2021-07-26 12:08:06+01000\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"Language: es\n"
+
+#: R/conttablespaired.b.R
+msgid "{ciWidth}% Confidence Intervals"
+msgstr "Intervalos de Confianza del {ciWidth}%"
+
+#: contTablesPaired/ui[1][1][0]/ci/ciWidth.suffix
+#: contTablesPaired/results/agree.columns.title
+msgid "%"
+msgstr "%"
+
+#: R/conttablespaired.b.R
+msgid "% marginal"
+msgstr "% marginal"
+
+#: R/conttablespaired.b.R
+msgid "% within column"
+msgstr "% dentro de la columna"
+
+#: R/conttablespaired.b.R
+msgid "% within row"
+msgstr "% dentro de la fila"
+
+#: package.description
+msgid ""
+"A clone of jmv's Paired Samples Contingency Tables (McNemar test) analysis, "
+"extended with a paired odds ratio and difference in proportions (with "
+"confidence intervals), an exact binomial McNemar test, marginal percentages, "
+"agreement/kappa, and — for RxR tables, i.e. a non-binary paired response — "
+"Bowker's test of symmetry and the Stuart-Maxwell test of marginal "
+"homogeneity."
+msgstr ""
+"Un clon del análisis de Tablas de Contingencia de Muestras Pareadas (test de "
+"McNemar) de jmv, ampliado con una razón de odds pareada y diferencia de "
+"proporciones (con intervalos de confianza), un test exacto de McNemar basado "
+"en la binomial, porcentajes marginales, concordancia/kappa, y — para tablas "
+"RxR, es decir, una respuesta pareada no binaria — la prueba de simetría de "
+"Bowker y la prueba de homogeneidad marginal de Stuart-Maxwell."
+
+#: contTablesPaired/results/agree.description
+msgid "a table of agreement measures"
+msgstr "una tabla de medidas de concordancia"
+
+#: contTablesPaired/results/odds.description
+msgid "a table of comparative measures (2x2 tables only)"
+msgstr "una tabla de medidas comparativas (solo tablas 2x2)"
+
+#: contTablesPaired/results/freqs.description
+msgid "a table of frequencies and percentages"
+msgstr "una tabla de frecuencias y porcentajes"
+
+#: contTablesPaired/results/test.description
+msgid "a table of test results"
+msgstr "una tabla de resultados de pruebas"
+
+#: contTablesPaired/ui[2][1][0].label
+#: contTablesPaired/results/agree.title
+msgid "Agreement"
+msgstr "Concordancia"
+
+#: R/conttablespaired.b.R
+msgid "Available for 2x2 tables only"
+msgstr "Disponible solo para tablas 2x2"
+
+#: R/conttablespaired.b.R
+msgid "Available for RxR tables only (more than two categories)"
+msgstr "Disponible solo para tablas RxR (más de dos categorías)"
+
+#: contTablesPaired/options/symmetry.title
+#: contTablesPaired/results/test.columns.content
+msgid "Bowker's test of symmetry"
+msgstr "Prueba de simetría de Bowker"
+
+#: contTablesPaired/options/kappa.title
+#: contTablesPaired/results/agree.columns.content
+msgid "Cohen's kappa"
+msgstr "Kappa de Cohen"
+
+#: contTablesPaired/options/pcCol.title
+msgid "Column"
+msgstr "Columna"
+
+#: R/conttablespaired.b.R
+msgid "Column variable '{var}' contains fewer than 2 levels"
+msgstr "La variable de columna '{var}' contiene menos de 2 niveles"
+
+#: contTablesPaired/options/cols.title
+msgid "Columns"
+msgstr "Columnas"
+
+#: contTablesPaired/results/odds.title
+msgid "Comparative Measures"
+msgstr "Medidas Comparativas"
+
+#: contTablesPaired/ui[1][1][0].label
+msgid "Comparative Measures (2x2)"
+msgstr "Medidas Comparativas (2x2)"
+
+#: contTablesPaired/options/ci.title
+msgid "Confidence intervals"
+msgstr "Intervalos de confianza"
+
+#: contTablesPaired/results/odds.columns.superTitle
+#: contTablesPaired/results/agree.columns.superTitle
+msgid "Confidence Intervals"
+msgstr "Intervalos de Confianza"
+
+#: package/analyses/contTablesPaired.menuSubgroup
+#: contTablesPaired/options.menuSubgroup
+#: contTablesPaired/results/freqs.title
+msgid "Contingency Tables"
+msgstr "Tablas de Contingencia"
+
+#: R/conttablespaired.b.R
+msgid "Could not be computed"
+msgstr "No se pudo calcular"
+
+#: R/conttablespaired.b.R
+msgid "Count"
+msgstr "Recuento"
+
+#: contTablesPaired/options/counts.title
+msgid "Counts (optional)"
+msgstr "Recuentos (opcional)"
+
+#: R/conttablespaired.b.R
+msgid "Counts may not be infinite"
+msgstr "Los recuentos no pueden ser infinitos"
+
+#: R/conttablespaired.b.R
+msgid "Counts may not be negative"
+msgstr "Los recuentos no pueden ser negativos"
+
+#: R/conttablespaired.b.R
+msgid "Counts must be non-negative and finite"
+msgstr "Los recuentos deben ser no negativos y finitos"
+
+#: contTablesPaired/results/test.columns.title
+msgid "df"
+msgstr "gl"
+
+#: contTablesPaired/options/diffProp.title
+#: contTablesPaired/results/odds.columns.content
+msgid "Difference in proportions"
+msgstr "Diferencia de proporciones"
+
+#: contTablesPaired/results/odds.columns.content
+msgid "Exact odds ratio"
+msgstr "Razón de odds exacta"
+
+#: contTablesPaired/options/oddsExact.title
+msgid "Exact odds ratio (conditional MLE)"
+msgstr "Razón de odds exacta (verosimilitud condicional)"
+
+#: contTablesPaired/options/exactBinom.title
+#: contTablesPaired/results/test.columns.content
+msgid "Exact test (binomial)"
+msgstr "Test exacto (binomial)"
+
+#: R/conttablespaired.b.R
+msgid "exact2x2 must be installed to calculate an exact odds ratio"
+msgstr "exact2x2 debe estar instalado para calcular una razón de odds exacta"
+
+#: R/conttablespaired.b.R
+msgid "Few discordant pairs ({n}) — consider the exact test (binomial)"
+msgstr "Pocos pares discordantes ({n}) — considere el test exacto (binomial)"
+
+#: package/analyses/contTablesPaired.menuGroup
+#: contTablesPaired/options.menuGroup
+msgid "Frequencies"
+msgstr "Frecuencias"
+
+#: R/conttablespaired.b.R
+msgid "Haldane-Anscombe correction applied (a discordant cell is zero)"
+msgstr "Se aplicó la corrección de Haldane-Anscombe (una celda discordante es cero)"
+
+#: contTablesPaired/options/ciWidth.title
+msgid "Interval"
+msgstr "Intervalo"
+
+#: contTablesPaired/results/odds.columns.title
+#: contTablesPaired/results/agree.columns.title
+msgid "Lower"
+msgstr "Más bajo"
+
+#: contTablesPaired/options/pcMarg.title
+msgid "Marginal"
+msgstr "Marginal"
+
+#: contTablesPaired/results/test.title
+msgid "McNemar Tests"
+msgstr "Pruebas de McNemar"
+
+#: package/analyses/contTablesPaired.menuSubtitle
+#: contTablesPaired/options.menuSubtitle
+msgid "McNemar, Bowker & Stuart-Maxwell"
+msgstr "McNemar, Bowker y Stuart-Maxwell"
+
+#: package/analyses/contTablesPaired.description
+#: contTablesPaired/options.description.main
+msgid ""
+"McNemar's test for paired binary data, extended with a paired odds ratio and "
+"difference in proportions (with confidence intervals), marginal percentages, "
+"agreement/kappa, and — for RxR tables — Bowker's test of symmetry and the "
+"Stuart-Maxwell test of marginal homogeneity."
+msgstr ""
+"El test de McNemar para datos binarios pareados, ampliado con una razón de "
+"odds pareada y diferencia de proporciones (con intervalos de confianza), "
+"porcentajes marginales, concordancia/kappa, y — para tablas RxR — la prueba "
+"de simetría de Bowker y la prueba de homogeneidad marginal de Stuart-Maxwell."
+
+#: contTablesPaired/options/agreement.title
+#: contTablesPaired/results/agree.columns.content
+msgid "Observed agreement"
+msgstr "Concordancia observada"
+
+#: contTablesPaired/options/oddsRatio.title
+#: contTablesPaired/results/odds.columns.content
+msgid "Odds ratio"
+msgstr "Razón de odds"
+
+#: package/analyses/contTablesPaired.menuTitle
+#: contTablesPaired/options.menuTitle
+msgid "Paired Samples (2xK)"
+msgstr "Muestras Pareadas (2xK)"
+
+#: package/analyses/contTablesPaired.title
+#: contTablesPaired/options.title
+#: contTablesPaired/ui.title
+#: contTablesPaired/results.title
+msgid "Paired Samples Contingency Tables"
+msgstr "Tablas de Contingencia de Muestras Pareadas"
+
+#: package.title
+msgid "Paired Samples Contingency Tables (2xK)"
+msgstr "Tablas de Contingencia de Muestras Pareadas (2xK)"
+
+#: contTablesPaired/ui[2][0][0].label
+msgid "Percentages"
+msgstr "Porcentajes"
+
+#: R/conttablespaired.b.R
+msgid "Reference is the first category, for rows and columns"
+msgstr "La referencia es la primera categoría, tanto en filas como en columnas"
+
+#: contTablesPaired/options/pcRow.title
+msgid "Row"
+msgstr "Fila"
+
+#: R/conttablespaired.b.R
+msgid "Row variable '{var}' contains fewer than 2 levels"
+msgstr "La variable de fila '{var}' contiene menos de 2 niveles"
+
+#: contTablesPaired/options/rows.title
+msgid "Rows"
+msgstr "Filas"
+
+#: contTablesPaired/options/margHom.title
+#: contTablesPaired/results/test.columns.content
+msgid "Stuart-Maxwell test of marginal homogeneity"
+msgstr "Prueba de homogeneidad marginal de Stuart-Maxwell"
+
+#: contTablesPaired/ui[1][0][0].label
+msgid "Tests"
+msgstr "Pruebas"
+
+#: R/conttablespaired.b.R
+msgid "The table must be square (rows and columns must share the same categories)"
+msgstr "La tabla debe ser cuadrada (filas y columnas deben compartir las mismas categorías)"
+
+#: R/conttablespaired.b.R
+msgid "Total"
+msgstr "Total"
+
+#: contTablesPaired/results/odds.columns.title
+#: contTablesPaired/results/agree.columns.title
+msgid "Upper"
+msgstr "Superior"
+
+#: contTablesPaired/results/test.columns.title
+#: contTablesPaired/results/odds.columns.title
+#: contTablesPaired/results/agree.columns.title
+msgid "Value"
+msgstr "Valor"
+
+#: contTablesPaired/options/chiSqCorr.title
+#: contTablesPaired/results/test.columns.content
+msgid "χ² continuity correction"
+msgstr "χ² con corrección de continuidad"

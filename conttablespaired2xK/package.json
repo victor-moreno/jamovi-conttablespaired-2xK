@@ -1,0 +1,10 @@
+{
+  "name": "conttablespaired2xK",
+  "version": "0.1.0",
+  "scripts": {
+    "prepublish": "mkdir -p conttablespaired2xK && jmc . --install-to conttablespaired2xK"
+  },
+  "devDependencies": {
+    "jamovi-compiler": "jamovi/jamovi-compiler"
+  }
+}

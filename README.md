@@ -1,8 +1,9 @@
-# mcnemarOR
+# conttablespaired2xK
 
 A [jamovi](https://www.jamovi.org) module that clones jmv's **Paired Samples Contingency Tables**
 (McNemar test) analysis, restructures its output to separate hypothesis tests from comparative
-measures (mirroring [conttables2xK](../jamovi-conttables-2xK)), and extends it with:
+measures (mirroring [conttables2xK](../jamovi-conttables-2xK)), and extends it — including to a
+**non-binary paired response** (RxR tables, not just 2x2) — with:
 
 - a **paired odds ratio** (b/c, Wald log confidence interval) and an optional **exact odds ratio**
   (conditional MLE with an exact confidence interval, via `exact2x2`);
@@ -16,8 +17,8 @@ measures (mirroring [conttables2xK](../jamovi-conttables-2xK)), and extends it w
   **Stuart-Maxwell test of marginal homogeneity**, the natural generalizations of McNemar's χ² and
   the difference-in-proportions test respectively.
 
-Appears in jamovi's menu as **Frequencies > Contingency Tables > Paired Samples (OR)**, alongside
-jmv's own "Paired Samples" entry.
+Appears in jamovi's menu as **Frequencies > Contingency Tables > Paired Samples (2xK)** (subtitle:
+"McNemar, Bowker & Stuart-Maxwell"), alongside jmv's own "Paired Samples" entry.
 
 ## The paired odds ratio and difference in proportions: reference convention
 
@@ -78,19 +79,19 @@ individual cell.
 ## Installation (sideload)
 
 Build the module (see below), then in jamovi: **Modules -> jamovi library -> Sideload** and select
-the built `.jmo` file (`mcnemarOR/mcnemarOR_<version>.jmo`).
+the built `.jmo` file (`conttablespaired2xK/conttablespaired2xK_<version>.jmo`).
 
 ## Repository layout
 
-- `mcnemarOR/` — R package source (analysis definitions, R code, jamovi UI yaml)
+- `conttablespaired2xK/` — R package source (analysis definitions, R code, jamovi UI yaml)
 - `tools/` — build and install helper scripts (adapted from `conttables2xK`)
 - `task_plan.md`, `findings.md`, `progress.md` — development working notes
 
 ## Building
 
 ```
-bash tools/install.sh desktop   # builds mcnemarOR/mcnemarOR_<version>.jmo and installs it
-                                 # into jamovi.app (macOS) using ~/R/.Rlib-arm or .Rlib-x64
+bash tools/install.sh desktop   # builds conttablespaired2xK/conttablespaired2xK_<version>.jmo and
+                                 # installs it into jamovi.app (macOS) using ~/R/.Rlib-arm or .Rlib-x64
 bash tools/install.sh docker    # same, into a running `jamovi` Docker container (needs jmc)
 bash tools/install.sh           # both, whichever are available
 ```
@@ -103,6 +104,32 @@ as described above.
 
 - `vcd` (Imports) — Cohen's kappa (`vcd::Kappa`)
 - `exact2x2` (Suggests) — only needed if the "Exact odds ratio (conditional MLE)" checkbox is used
+
+## Naming: package vs. analysis identifier
+
+Following the same convention as `conttables2xK`: the **package/repo** is rebranded
+(`conttablespaired2xK`, menu "Paired Samples (2xK)") to advertise the RxR extension, but the
+**analysis identifier itself stays `contTablesPaired`**, unchanged from jmv's original — matching
+file basenames (`jamovi/conttablespaired.*.yaml`, `R/conttablespaired.b.R`), R6 class names
+(`contTablesPairedClass`/`Base`), and exported R function (`contTablesPaired()`). This keeps the
+module usable as a drop-in override / potential upstream PR candidate for jmv's own analysis,
+rather than introducing a differently-named sibling.
+
+## Translations
+
+`jamovi/i18n/es.po` and `jamovi/i18n/ca.po` hold Spanish and Catalan translations of this module's
+own strings (menu title/subtitle, table/column titles, footnotes, option labels) — generated with
+`jmvtools::i18nCreate()`/`i18nUpdate()` and hand-translated. They do **not** duplicate the full
+upstream jmv catalog (unlike `conttables2xK`'s multi-thousand-line `.po` files, inherited from
+jmv/Weblate): only strings this module actually defines are listed, so the catalog stays small and
+auditable. Regenerate after changing any user-facing string: `Rscript -e
+'jmvtools::i18nUpdate("es"); jmvtools::i18nUpdate("ca")'` from inside `conttablespaired2xK/`, then
+fill in any new/changed `msgstr` entries.
+
+**Caveat observed while building this**: `i18nUpdate()` re-merged one long, already-translated
+`msgstr` (the "table must be square" footnote) by *appending* the new extraction to the existing
+translation instead of replacing it, silently duplicating the Spanish/Catalan text. Diff the `.po`
+files after running `i18nUpdate()` and check for any `msgstr` that looks doubled before committing.
 
 ## Acknowledgment
 

@@ -6,7 +6,7 @@
 *.zip
 *.tar
 *.tar.gz
-mcnemarOR/*.jmo
+conttablespaired2xK/*.jmo
 dist/
 jamovi-conttables-2xK
 jamovi-src

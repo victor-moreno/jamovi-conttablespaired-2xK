@@ -4,7 +4,7 @@
 #
 #   bash tools/prepare-jmo.sh 4.6.0 mac arm64
 #   bash tools/prepare-jmo.sh 4.6.0 all
-#   bash tools/prepare-jmo.sh 4.5.3 linux x64 path/to/mcnemarOR_1.0.0.jmo
+#   bash tools/prepare-jmo.sh 4.5.3 linux x64 path/to/conttablespaired2xK_1.0.0.jmo
 set -euo pipefail
 
 R_VERSION="${1:-}"
@@ -12,8 +12,8 @@ OS="${2:-}"
 ARCH="${3:-}"
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-MODULE_DIR="$ROOT/mcnemarOR"
-MODULE=mcnemarOR
+MODULE_DIR="$ROOT/conttablespaired2xK"
+MODULE=conttablespaired2xK
 VERSION="$(awk -F': *' '$1 == "Version" { print $2; exit }' "$MODULE_DIR/DESCRIPTION")"
 
 usage() {
@@ -56,7 +56,7 @@ prepare_target() {
 
   target_r="${R_VERSION}-${target_arch}"
   out="$ROOT/dist/${MODULE}_${VERSION}_R${R_VERSION}_${target_os}_${target_arch}.jmo"
-  tmp="$(mktemp -d "${TMPDIR:-/tmp}/mcnemarOR-jmo.XXXXXX")"
+  tmp="$(mktemp -d "${TMPDIR:-/tmp}/conttablespaired2xK-jmo.XXXXXX")"
 
   unzip -q "$SOURCE" -d "$tmp"
   for meta in "$tmp/$MODULE/jamovi.yaml" "$tmp/$MODULE/jamovi-full.yaml"; do

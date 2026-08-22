@@ -1,4 +1,4 @@
-name: contTablesPairedOR
+name: contTablesPaired
 title: Paired Samples Contingency Tables
 jus: '2.0'
 compilerMode: tame

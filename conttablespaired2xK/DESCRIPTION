@@ -1,6 +1,6 @@
-Package: mcnemarOR
+Package: conttablespaired2xK
 Type: Package
-Title: Paired Samples Contingency Tables, with Odds Ratio and Agreement
+Title: Paired Samples Contingency Tables, with Odds Ratio and Agreement (RxR)
 Version: 0.1.0
 Date: 2026-08-22
 Authors@R: c(person("Ravi", "Selker", role=c("aut", "cph")),
@@ -16,11 +16,12 @@ Description: A clone of jmv's Paired Samples Contingency Tables (McNemar test) a
     paired proportions, both with confidence intervals, for 2x2 tables; an optional exact
     odds ratio (conditional MLE with exact confidence interval); an exact McNemar test
     based on the binomial distribution; marginal percentages in the frequency table;
-    observed agreement and Cohen's kappa; and, for RxR tables (R > 2), Bowker's test of
-    symmetry and the Stuart-Maxwell test of marginal homogeneity, the natural
-    generalizations of McNemar's test and the difference in proportions test respectively.
-    This package is intended for use from the 'jamovi' statistical spreadsheet (see
-    <https://www.jamovi.org> for more information).
+    observed agreement and Cohen's kappa; and, for RxR tables (more than two paired
+    categories, i.e. a non-binary paired response), Bowker's test of symmetry and the
+    Stuart-Maxwell test of marginal homogeneity, the natural generalizations of McNemar's
+    test and the difference in proportions test respectively. This package is intended
+    for use from the 'jamovi' statistical spreadsheet (see <https://www.jamovi.org> for
+    more information).
 BugReports: https://github.com/jamovi/jmv/issues
 License: GPL (>= 2)
 Language: en-GB

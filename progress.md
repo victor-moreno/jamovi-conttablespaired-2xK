@@ -46,11 +46,57 @@
   in `.run()` (consolidated to one, right after the shape checks) and one
   dead `names(rowTotal) <- ...` line, during review before finalizing.
 
+## 2026-08-22 (follow-up turn — rename)
+
+User asked to rename before installing, to foreground the RxR/non-binary
+capability: outer repo -> `jamovi-conttablespaired-2xK`, package ->
+`conttablespaired2xK`, menu -> "Paired Samples (2xK)" / "McNemar, Bowker &
+Stuart-Maxwell", plus real es/ca i18n.
+
+- Asked 2 clarifying questions first (AskUserQuestion): outer-folder rename
+  conflicted with my own CLAUDE.md sandbox rule ("no parent-folder writes"),
+  so I asked for explicit authorization rather than just doing it or
+  refusing outright — user authorized it. Also asked English-vs-literal-
+  Spanish for the menu text — user chose English + asked for es.po/ca.po too.
+- `mv`'d the outer directory; git history intact (verified `git status`
+  right after — only showed my own uncommitted task_plan.md edit, nothing
+  from the move itself, as expected for a plain directory rename).
+- `git mv`'d the package dir and every yaml/R/test file inside it.
+- Re-examined conttables2xK's actual convention before renaming the analysis
+  identifier: it does NOT rename the analysis itself (`contTables` stays
+  `contTables`), only the package/repo/menu. Corrected course from my first
+  pass (which had invented `contTablesPairedOR`) back to plain
+  `contTablesPaired`, matching upstream jmv exactly — this is a better,
+  more-precedent-consistent design than what I shipped in the first commit.
+- Used `jmvtools::i18nCreate("es")`/`i18nCreate("ca")` (discovered via
+  `ls("package:jmvtools")`) rather than hand-authoring `.po` files or
+  copying conttables2xK's enormous (6000+ line, mostly-irrelevant) inherited
+  catalog. Got a clean 61-string extraction scoped to just this module.
+  Hand-translated both languages, reusing established jmv-ecosystem
+  terminology where I could find precedent in conttables2xK's own catalog
+  (e.g. "df"->"gl", "Lower"->"Más bajo" es / "Inferior" ca, "Row"->"Fila")
+  — and DELIBERATELY did NOT copy Catalan "Count"/"Frequencies", whose
+  existing translations in conttables2xK's ca.po look swapped
+  ("Count"->"Freqüència", "Frequencies"->"Recompte") — used the
+  semantically-correct pairing instead ("Recompte"/"Freqüències").
+- Hit and fixed a real `jmvtools::i18nUpdate()` bug: running it a second
+  time duplicated one long already-translated msgstr (appended instead of
+  replaced) for both languages. Caught it with a proper multi-line-aware .po
+  parser (my first naive line-based check gave a false "still empty"
+  reading — the content wasn't empty, it was wrapped `msgstr ""` + quoted
+  continuation, which is valid PO syntax my quick script didn't handle).
+  Fixed by hand, did not re-run i18nUpdate afterward, documented the caveat
+  in README so it doesn't get silently reintroduced.
+- Rebuilt end-to-end after all renames; reinstalled into `~/R/.Rlib-arm` for
+  headless testing; **35/35 testthat assertions still pass** under the new
+  name. Spot-checked the compiled `inst/i18n/es.json` to confirm translated
+  strings survived compilation intact (no duplication, correct content).
+
 ## Still open
-- README.md not yet written.
-- Not yet committed to git.
 - The real jamovi.app GUI rendering (footnote letters, column layout,
-  options panel) has NOT been visually verified — only the R-level
-  computation and table `asDF` values. The user should sideload and take a
-  look before relying on this for real analysis. This mirrors the same
-  caveat noted for headless testing throughout jamovi-skill's own guidance.
+  options panel, and now Spanish/Catalan display when jamovi's UI language
+  is switched) has NOT been visually verified — only the R-level computation
+  and table `asDF` values. The user should sideload and take a look before
+  relying on this for real analysis. This mirrors the same caveat noted for
+  headless testing throughout jamovi-skill's own guidance.
+- Not yet committed to git (this rename batch).

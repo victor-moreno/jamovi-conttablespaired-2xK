@@ -1,6 +1,6 @@
 ---
-title: Paired Samples Contingency Tables (OR)
-name: mcnemarOR
+title: Paired Samples Contingency Tables (2xK)
+name: conttablespaired2xK
 version: 0.1.0
 jms: '1.0'
 authors:
@@ -13,16 +13,16 @@ description: >
   A clone of jmv's Paired Samples Contingency Tables (McNemar test) analysis,
   extended with a paired odds ratio and difference in proportions (with
   confidence intervals), an exact binomial McNemar test, marginal percentages,
-  agreement/kappa, and the RxR generalizations of McNemar's test (Bowker's test
-  of symmetry, Stuart-Maxwell test of marginal homogeneity).
+  agreement/kappa, and — for RxR tables, i.e. a non-binary paired response —
+  Bowker's test of symmetry and the Stuart-Maxwell test of marginal homogeneity.
 analyses:
   - title: Paired Samples Contingency Tables
-    name: contTablesPairedOR
-    ns: mcnemarOR
+    name: contTablesPaired
+    ns: conttablespaired2xK
     menuGroup: Frequencies
     menuSubgroup: Contingency Tables
-    menuTitle: Paired Samples (OR)
-    menuSubtitle: McNemar test, odds ratio, kappa
+    menuTitle: Paired Samples (2xK)
+    menuSubtitle: McNemar, Bowker & Stuart-Maxwell
     description: >
       McNemar's test for paired binary data, extended with a paired odds ratio
       and difference in proportions (with confidence intervals), marginal

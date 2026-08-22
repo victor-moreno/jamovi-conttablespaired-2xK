@@ -105,10 +105,9 @@ recommending the exact test (mirrors Fisher-exact-style UX in conttables2xK).
   `mcnemarOR/mcnemarOR_0.1.0.jmo` (same fallback conttables2xK's own
   install.sh already documents for this exact failure mode).
 
-### Phase 6 — Docs & commit (in_progress)
-- [ ] README.md (mirror conttables2xK's style, document the paired-OR convention,
-  CI methods used, RxR generalization)
-- [ ] git commit
+### Phase 6 — Docs & commit (complete)
+- [x] README.md written
+- [x] git commit (3d21d0d)
 
 ## Decisions log
 - 2026-08-22: User chose to include Bowker/Stuart-Maxwell now, and Wald+optional-exact
@@ -117,8 +116,45 @@ recommending the exact test (mirrors Fisher-exact-style UX in conttables2xK).
 ## Errors log
 (none yet)
 
+### Phase 7 — Rename to conttablespaired2xK + i18n (complete)
+User asked (2026-08-22, follow-up turn) to rename before installing:
+- Outer repo dir: jamovi-mcnemar-OR -> jamovi-conttablespaired-2xK (explicit
+  exception granted to the sandbox "no parent-folder writes" rule, for this
+  one `mv`, since the CLAUDE.md rule would otherwise block renaming my own
+  starting folder)
+- R package: mcnemarOR -> conttablespaired2xK
+- Analysis identifier reverted to `contTablesPaired` (matching jmv upstream
+  exactly, NOT `contTablesPairedOR`/`contTablesPaired2xK`) — discovered by
+  re-checking conttables2xK's own convention: it keeps jmv's original
+  `contTables` identifier unchanged and rebrands only at the
+  package/repo/menu level (`ns: conttables2xK`, menuTitle "(2xK)"). Applied
+  the same pattern here: file basenames, R6 class names, and the exported R
+  function are all `contTablesPaired`/`conttablespaired.*`, matching
+  upstream jmv 1:1; only DESCRIPTION/0000.yaml/menuTitle/menuSubtitle carry
+  the "2xK" rebrand. Documented in README under "Naming: package vs.
+  analysis identifier".
+- Menu: menuTitle "Paired Samples (2xK)", menuSubtitle "McNemar, Bowker &
+  Stuart-Maxwell" — English (user's explicit choice), but with real i18n
+  infrastructure: `jamovi/i18n/es.po` + `ca.po` generated via
+  `jmvtools::i18nCreate()` (NOT copied wholesale from jmv's huge upstream
+  catalog like conttables2xK's own `.po` files are — ours only contains this
+  module's own 61 strings) and hand-translated in full (both files, 61/61
+  entries, verified via a proper multi-line-aware .po parser, zero empty).
+- Rebuilt (`bash tools/install.sh desktop`) and reinstalled for headless
+  testing under the new name — **35/35 testthat assertions still pass**.
+  jmc compiled es.po/ca.po into inst/i18n/{es,ca}.json without error; spot
+  checked translated strings landed correctly in the compiled JSON.
+- Found and fixed an `i18nUpdate()` quirk: it duplicated one long msgstr
+  (appended instead of replaced) across two update runs. Fixed by hand,
+  documented as a caveat in README so it isn't silently reintroduced next
+  time someone runs `i18nUpdate()`.
+
 ## Next Step
-Phase 6: write README.md, then git commit. Module is functionally complete
-and tested (35/35 testthat assertions pass); the only remaining item is the
-user sideloading the built .jmo by hand once (SingletonLock sandbox issue,
-documented above).
+All phases complete, including the rename. Only remaining item: the user
+sideloads the built .jmo (`conttablespaired2xK/conttablespaired2xK_0.1.0.jmo`,
+rebuild via `bash tools/install.sh desktop` if needed) by hand once via
+jamovi -> Modules -> Sideload (SingletonLock sandbox issue prevented
+jmvtools from doing this automatically), and eyeballs the real UI rendering
+(footnote letters, options panel layout, Spanish/Catalan display when jamovi
+is set to those languages) since that hasn't been visually verified, only
+R-level computation.

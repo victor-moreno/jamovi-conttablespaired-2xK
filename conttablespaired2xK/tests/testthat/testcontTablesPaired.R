@@ -1,4 +1,4 @@
-testthat::context('contTablesPairedOR')
+testthat::context('contTablesPaired')
 
 testthat::test_that('2x2 tests, comparative measures and agreement match oracle values', {
 
@@ -11,7 +11,7 @@ testthat::test_that('2x2 tests, comparative measures and agreement match oracle 
         s2 = factor(c('Approve', 'Disapprove', 'Approve', 'Disapprove'), c('Approve', 'Disapprove')),
         n  = c(794, 150, 86, 570))
 
-    r <- mcnemarOR::contTablesPairedOR(
+    r <- conttablespaired2xK::contTablesPaired(
         data=dat, rows='s1', cols='s2', counts='n',
         chiSq=TRUE, chiSqCorr=TRUE, exactBinom=TRUE,
         oddsRatio=TRUE, oddsExact=TRUE, diffProp=TRUE,
@@ -53,7 +53,7 @@ testthat::test_that('marginal percentages are blank on interior cells, populated
         s2 = factor(c('Approve', 'Disapprove', 'Approve', 'Disapprove'), c('Approve', 'Disapprove')),
         n  = c(794, 150, 86, 570))
 
-    r <- mcnemarOR::contTablesPairedOR(data=dat, rows='s1', cols='s2', counts='n', pcMarg=TRUE)
+    r <- conttablespaired2xK::contTablesPaired(data=dat, rows='s1', cols='s2', counts='n', pcMarg=TRUE)
     freqs <- r$freqs$asDF
 
     testthat::expect_true(all(is.nan(freqs[['1[pcMarg]']][1:2])))
@@ -74,7 +74,7 @@ testthat::test_that('RxR tables get Bowker/Stuart-Maxwell and kappa, not OR/DP',
         r2 = factor(rep(lv, times=3), lv),
         n  = as.vector(t(mat3)))
 
-    r <- mcnemarOR::contTablesPairedOR(
+    r <- conttablespaired2xK::contTablesPaired(
         data=dat, rows='r1', cols='r2', counts='n',
         symmetry=TRUE, margHom=TRUE, oddsRatio=TRUE, diffProp=TRUE, kappa=TRUE)
 
@@ -99,7 +99,7 @@ testthat::test_that('a non-square table degrades gracefully (no error, NaN + foo
         r2 = factor(c('X', 'Y', 'X', 'Y', 'X', 'Y'), c('X', 'Y')),
         n  = c(10, 5, 3, 12, 7, 8))
 
-    r <- mcnemarOR::contTablesPairedOR(data=dat, rows='r1', cols='r2', counts='n')
+    r <- conttablespaired2xK::contTablesPaired(data=dat, rows='r1', cols='r2', counts='n')
 
     test <- r$test$asDF
     testthat::expect_true(is.nan(test[['value[mcn]']]))

@@ -3,6 +3,6 @@
 # below (nothing in R/ carries an @import tag for them) rather than reproduce
 # them. Do not run devtools::document()/roxygenise() on this package.
 
-export(contTablesPairedOR)
+export(contTablesPaired)
 import(jmvcore)
 importFrom(jmvcore,.)

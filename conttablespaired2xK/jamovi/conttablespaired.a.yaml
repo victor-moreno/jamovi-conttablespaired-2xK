@@ -1,11 +1,11 @@
 ---
-name: contTablesPairedOR
+name: contTablesPaired
 title: Paired Samples Contingency Tables
 
 menuGroup: Frequencies
 menuSubgroup: Contingency Tables
-menuTitle: Paired Samples (OR)
-menuSubtitle: McNemar test, odds ratio, kappa
+menuTitle: Paired Samples (2xK)
+menuSubtitle: McNemar, Bowker & Stuart-Maxwell
 
 version: '1.0.0'
 jas: '1.2'
@@ -26,7 +26,7 @@ description:
                 `Counts` = c(794, 150, 86, 570),
                 check.names=FALSE)
 
-            mcnemarOR::contTablesPairedOR(formula = Counts ~ `1st survey`:`2nd survey`, data = dat)
+            conttablespaired2xK::contTablesPaired(formula = Counts ~ `1st survey`:`2nd survey`, data = dat)
 
             #
             #  PAIRED SAMPLES CONTINGENCY TABLES
@@ -52,7 +52,7 @@ description:
             # Alternatively, omit the left of the formula (`Counts`) from the
             # formula if each row represents a single observation:
 
-            mcnemarOR::contTablesPairedOR(formula = ~ `1st survey`:`2nd survey`, data = dat)
+            conttablespaired2xK::contTablesPaired(formula = ~ `1st survey`:`2nd survey`, data = dat)
 
 completeWhenFilled: true
 

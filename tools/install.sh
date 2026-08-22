@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Build and install mcnemarOR into jamovi desktop and/or a running jamovi
+# Build and install conttablespaired2xK into jamovi desktop and/or a running jamovi
 # Docker container.
 #
 #   bash install.sh              both targets, whichever are available
@@ -11,8 +11,8 @@ set -euo pipefail
 TARGET="${1:-both}"
 CONTAINER="${2:-jamovi}"
 
-HERE="$(cd "$(dirname "$0")/../mcnemarOR" && pwd)"
-MODULE=mcnemarOR
+HERE="$(cd "$(dirname "$0")/../conttablespaired2xK" && pwd)"
+MODULE=conttablespaired2xK
 VERSION="$(awk -F': *' '$1 == "Version" { print $2; exit }' "$HERE/DESCRIPTION")"
 ARTIFACT="$HERE/${MODULE}_${VERSION}.jmo"
 
@@ -31,7 +31,7 @@ install_desktop() {
   APP_R="$APP/Contents/Frameworks/R.framework/Versions/Current/Resources/bin/R"
   [ -x "$APP_R" ] || { echo "error: no R inside $APP" >&2; return 1; }
 
-  echo ">> desktop: building mcnemarOR for $ARCH using $PD"
+  echo ">> desktop: building conttablespaired2xK for $ARCH using $PD"
   cd "$HERE"
 
   LOG="$(mktemp)"
@@ -86,7 +86,7 @@ install_docker() {
   # container and jmc tries to compile them.
   tar --no-mac-metadata --no-xattrs -C "$HERE" -cf - DESCRIPTION NAMESPACE R jamovi \
     | docker exec -i "$CONTAINER" sh -c \
-        'rm -rf /tmp/mcnemarOR-src && mkdir -p /tmp/mcnemarOR-src && tar -C /tmp/mcnemarOR-src -xf -'
+        'rm -rf /tmp/conttablespaired2xK-src && mkdir -p /tmp/conttablespaired2xK-src && tar -C /tmp/conttablespaired2xK-src -xf -'
 
   echo ">> docker: jmc --install"
   docker exec -i "$CONTAINER" bash -s <<'INCONTAINER'
@@ -96,14 +96,14 @@ RHOME="${R_HOME:-$(R RHOME 2>/dev/null || true)}"
 [ -n "$RHOME" ] || { echo "   error: no R in the container" >&2; exit 1; }
 RLIBS=/usr/lib/jamovi/modules/base/R
 
-jmc --install /tmp/mcnemarOR-src \
+jmc --install /tmp/conttablespaired2xK-src \
     --to /usr/lib/jamovi/modules \
     --rhome "$RHOME" \
     --rlibs "$RLIBS" \
     --patch-version --skip-deps
 
-[ -f /usr/lib/jamovi/modules/mcnemarOR/jamovi.yaml ] || {
-  echo "   error: jmc did not install mcnemarOR" >&2; exit 1; }
+[ -f /usr/lib/jamovi/modules/conttablespaired2xK/jamovi.yaml ] || {
+  echo "   error: jmc did not install conttablespaired2xK" >&2; exit 1; }
 INCONTAINER
 
   echo ">> docker: restarting $CONTAINER to load the module"
@@ -114,10 +114,10 @@ set -euo pipefail
 Rscript --vanilla -e '
     .libPaths(c(
         "/usr/lib/jamovi/modules/base/R",
-        "/usr/lib/jamovi/modules/mcnemarOR/R",
+        "/usr/lib/jamovi/modules/conttablespaired2xK/R",
         .libPaths()
     ))
-    library(mcnemarOR)
+    library(conttablespaired2xK)
 
     # classic paired-survey example: chi2=17.36, OR=150/86=1.744
     dat <- data.frame(
@@ -125,14 +125,14 @@ Rscript --vanilla -e '
         s2 = factor(c("Approve","Disapprove","Approve","Disapprove"), c("Approve","Disapprove")),
         n  = c(794, 150, 86, 570))
 
-    r <- contTablesPairedOR(data=dat, rows="s1", cols="s2", counts="n")
+    r <- contTablesPaired(data=dat, rows="s1", cols="s2", counts="n")
 
     or <- r$odds$asDF
     stopifnot(isTRUE(all.equal(or[["v[o]"]][1], 150/86)))
     cat(sprintf("   paired odds-ratio smoke test passed (OR = %.3f)\n", or[["v[o]"]][1]))
 '
 INCONTAINER
-  echo ">> docker: installed mcnemarOR; open Frequencies > Contingency Tables > Paired Samples (OR) to verify"
+  echo ">> docker: installed conttablespaired2xK; open Frequencies > Contingency Tables > Paired Samples (2xK) to verify"
 }
 
 case "$TARGET" in

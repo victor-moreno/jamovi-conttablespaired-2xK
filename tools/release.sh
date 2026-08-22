@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 # Build dist/ artifacts for a jamovi/R version and publish a GitHub release
 # with the per-platform .jmo files attached. Run this whenever jamovi bumps
-# its bundled R version and mcnemarOR needs a matching release.
+# its bundled R version and conttablespaired2xK needs a matching release.
 #
 #   bash tools/release.sh 4.6.0
 #
-# Requires mcnemarOR/mcnemarOR_1.0.0.jmo to already exist (build it first
+# Requires conttablespaired2xK/conttablespaired2xK_1.0.0.jmo to already exist (build it first
 # with tools/install.sh desktop).
 set -euo pipefail
 
@@ -21,8 +21,8 @@ esac
 command -v gh >/dev/null || { echo "error: gh CLI is required" >&2; exit 1; }
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-MODULE_DIR="$ROOT/mcnemarOR"
-MODULE=mcnemarOR
+MODULE_DIR="$ROOT/conttablespaired2xK"
+MODULE=conttablespaired2xK
 VERSION="$(awk -F': *' '$1 == "Version" { print $2; exit }' "$MODULE_DIR/DESCRIPTION")"
 REPO="$(cd "$ROOT" && gh repo view --json nameWithOwner -q .nameWithOwner)"
 
