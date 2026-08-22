@@ -140,6 +140,8 @@ contTablesPairedClass <- R6::R6Class(
             odds$getColumn('ciu[oe]')$setSuperTitle(ciText)
             agree$getColumn('cil[kap]')$setSuperTitle(ciText)
             agree$getColumn('ciu[kap]')$setSuperTitle(ciText)
+            agree$getColumn('cil[obs]')$setSuperTitle(ciText)
+            agree$getColumn('ciu[obs]')$setSuperTitle(ciText)
         },
         .run = function() {
 
@@ -461,7 +463,7 @@ contTablesPairedClass <- R6::R6Class(
 
                 unavailMsg <- .('The table must be square (rows and columns must share the same categories)')
                 agreeValues <- list(
-                    `v[obs]`=NaN,
+                    `v[obs]`=NaN, `cil[obs]`='', `ciu[obs]`='',
                     `v[kap]`=NaN, `cil[kap]`='', `ciu[kap]`='')
                 agree$setRow(rowNo=1, values=agreeValues)
                 agree$addFootnote(rowNo=1, 'v[obs]', unavailMsg)
@@ -469,8 +471,19 @@ contTablesPairedClass <- R6::R6Class(
 
             } else {
 
-                if (self$options$agreement)
-                    agreeValues[['v[obs]']] <- sum(diag(result)) / N
+                if (self$options$agreement) {
+                    concordant <- sum(diag(result))
+                    agreeValues[['v[obs]']] <- concordant / N
+
+                    propTest <- try(stats::prop.test(concordant, N, conf.level=ciWidth, correct=FALSE), silent=TRUE)
+                    if (base::inherits(propTest, 'try-error')) {
+                        agreeValues[['cil[obs]']] <- ''
+                        agreeValues[['ciu[obs]']] <- ''
+                    } else {
+                        agreeValues[['cil[obs]']] <- propTest$conf.int[1]
+                        agreeValues[['ciu[obs]']] <- propTest$conf.int[2]
+                    }
+                }
 
                 if (self$options$kappa) {
                     kap <- try(vcd::Kappa(result), silent=TRUE)

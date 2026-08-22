@@ -46,6 +46,8 @@ testthat::test_that('2x2 tests, comparative measures and agreement match oracle 
 
     agree <- r$agree$asDF
     testthat::expect_equal(agree[['v[obs]']], (794 + 570) / 1600, tolerance=1e-9)
+    testthat::expect_equal(agree[['cil[obs]']], 0.8342807, tolerance=1e-5)
+    testthat::expect_equal(agree[['ciu[obs]']], 0.8690307, tolerance=1e-5)
     testthat::expect_equal(agree[['v[kap]']], 0.6995927, tolerance=1e-5)
     testthat::expect_equal(agree[['cil[kap]']], 0.6643542, tolerance=1e-5)
     testthat::expect_equal(agree[['ciu[kap]']], 0.7348312, tolerance=1e-5)
@@ -95,6 +97,8 @@ testthat::test_that('RxR tables get Bowker/Stuart-Maxwell and kappa, not OR/DP',
 
     agree <- r$agree$asDF
     testthat::expect_equal(agree[['v[obs]']], 60 / 87, tolerance=1e-9)
+    testthat::expect_equal(agree[['cil[obs]']], 0.5861618, tolerance=1e-5)
+    testthat::expect_equal(agree[['ciu[obs]']], 0.7771084, tolerance=1e-5)
 })
 
 testthat::test_that('a non-square table degrades gracefully (no error, NaN + footnotes)', {

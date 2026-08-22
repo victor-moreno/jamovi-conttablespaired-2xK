@@ -167,6 +167,21 @@ scale; (3) kappa's 95% CI was already implemented since the first build --
 verified fresh rather than assumed, told the user instead of no-op'ing.
 37/37 local + 37/37 Docker. See progress.md for full detail.
 
+### Phase 10 — kappa CI investigation + renames (complete)
+User said kappa's CI still doesn't appear despite Phase 9's verification.
+Root-caused via jmvcore source (table-fold.R): print()'s row-unstacking
+("fold") is R-console-only, not proof of a real GUI bug, but revealed the
+`agree` table's column groups were genuinely asymmetric (obs had no CI,
+kap did) unlike every other multi-measure table in this codebase. Fixed by
+adding a real CI for Observed agreement too (stats::prop.test), making
+groups symmetric -- also a legitimate standalone improvement. Also: table
+title "McNemar Tests" -> "Paired Tests"; "χ²" -> "McNemar χ²" (test row +
+chiSq option) and "χ² continuity correction" -> "McNemar χ² continuity
+correction" (chiSqCorr option), for consistency since the table now also
+holds Bowker's/Stuart-Maxwell's own χ²-based rows. Hit the "R CMD INSTALL
+without rebuilding .h.R first" trap when adding new columns -- documented
+in progress.md. 41/41 local + 41/41 Docker.
+
 ## Next Step
 Verification method going forward: Docker (`bash tools/install.sh docker`
 + copy `tests/` in + `testthat::test_dir()`), per user's explicit

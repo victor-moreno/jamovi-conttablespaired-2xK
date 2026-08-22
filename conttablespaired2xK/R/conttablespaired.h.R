@@ -204,7 +204,7 @@ contTablesPairedResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6
             self$add(jmvcore::Table$new(
                 options=options,
                 name="test",
-                title="McNemar Tests",
+                title="Paired Tests",
                 clearWith=list(
                     "rows",
                     "cols",
@@ -214,7 +214,7 @@ contTablesPairedResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6
                         `name`="name[mcn]", 
                         `title`="", 
                         `type`="text", 
-                        `content`="\u03C7\u00B2", 
+                        `content`="McNemar \u03C7\u00B2", 
                         `visible`="(chiSq)"),
                     list(
                         `name`="value[mcn]", 
@@ -235,7 +235,7 @@ contTablesPairedResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6
                         `name`="name[cor]", 
                         `title`="", 
                         `type`="text", 
-                        `content`="\u03C7\u00B2 continuity correction", 
+                        `content`="McNemar \u03C7\u00B2 continuity correction", 
                         `visible`="(chiSqCorr)"),
                     list(
                         `name`="value[cor]", 
@@ -422,9 +422,18 @@ contTablesPairedResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6
                         `visible`="(agreement)"),
                     list(
                         `name`="v[obs]", 
-                        `title`="%", 
-                        `format`="pc", 
+                        `title`="Value", 
                         `visible`="(agreement)"),
+                    list(
+                        `name`="cil[obs]", 
+                        `title`="Lower", 
+                        `superTitle`="Confidence Intervals", 
+                        `visible`="(agreement && ci)"),
+                    list(
+                        `name`="ciu[obs]", 
+                        `title`="Upper", 
+                        `superTitle`="Confidence Intervals", 
+                        `visible`="(agreement && ci)"),
                     list(
                         `name`="t[kap]", 
                         `title`="", 
@@ -488,13 +497,13 @@ contTablesPairedBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Cla
 #' #
 #' #  PAIRED SAMPLES CONTINGENCY TABLES
 #' #
-#' #  McNemar Tests
-#' #  -----------------------------------------------------
-#' #                                Value    df    p
-#' #  -----------------------------------------------------
-#' #    X²                           17.4     1    < .001
-#' #    X² continuity correction     16.8     1    < .001
-#' #  -----------------------------------------------------
+#' #  Paired Tests
+#' #  -------------------------------------------------------------
+#' #                                        Value    df    p
+#' #  -------------------------------------------------------------
+#' #    McNemar X²                           17.4     1    < .001
+#' #    McNemar X² continuity correction     16.8     1    < .001
+#' #  -------------------------------------------------------------
 #' #
 #' #
 #' #  Comparative Measures
@@ -518,19 +527,20 @@ contTablesPairedBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Cla
 #'   (not necessary when providing a formula, see the examples)
 #' @param counts the variable to use as the counts in the contingency table
 #'   (not necessary when providing a formula, see the examples)
-#' @param chiSq \code{TRUE} (default) or \code{FALSE}, provide X² (2x2 tables
-#'   only)
+#' @param chiSq \code{TRUE} (default) or \code{FALSE}, provide McNemar's X²
+#'   (2x2 tables only)
 #' @param chiSqCorr \code{TRUE} or \code{FALSE} (default), provide X² with
 #'   continuity correction (2x2 tables only)
 #' @param exactBinom \code{TRUE} or \code{FALSE} (default), provide McNemar's
 #'   exact test based on the binomial distribution (2x2 tables only)
 #' @param symmetry \code{TRUE} (default) or \code{FALSE}, provide Bowker's
-#'   test of symmetry (the RxR generalization of McNemar's X²; only computed for
-#'   RxR tables with R > 2, i.e. rows and columns sharing more than two
-#'   categories)
+#'   test of symmetry (the RxR generalization of McNemar's X²; computed for any
+#'   square table, i.e. rows and columns sharing the same categories -- for a
+#'   2x2 table it is numerically identical to the uncorrected X²)
 #' @param margHom \code{TRUE} (default) or \code{FALSE}, provide the
 #'   Stuart-Maxwell test of marginal homogeneity (the RxR generalization of the
-#'   difference in proportions test; only computed for RxR tables with R > 2)
+#'   difference in proportions test; computed for any square table -- for a 2x2
+#'   table it is numerically identical to the uncorrected McNemar X²)
 #' @param oddsRatio \code{TRUE} (default) or \code{FALSE}, provide the paired
 #'   odds ratio (b/c, Wald confidence interval; 2x2 tables only). Reference is
 #'   the first category, for both rows and columns

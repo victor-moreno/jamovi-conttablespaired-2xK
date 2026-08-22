@@ -31,13 +31,13 @@ description:
             #
             #  PAIRED SAMPLES CONTINGENCY TABLES
             #
-            #  McNemar Tests
-            #  ─────────────────────────────────────────────────────
-            #                                Value    df    p
-            #  ─────────────────────────────────────────────────────
-            #    χ²                           17.4     1    < .001
-            #    χ² continuity correction     16.8     1    < .001
-            #  ─────────────────────────────────────────────────────
+            #  Paired Tests
+            #  ─────────────────────────────────────────────────────────────
+            #                                        Value    df    p
+            #  ─────────────────────────────────────────────────────────────
+            #    McNemar χ²                           17.4     1    < .001
+            #    McNemar χ² continuity correction     16.8     1    < .001
+            #  ─────────────────────────────────────────────────────────────
             #
             #
             #  Comparative Measures
@@ -116,15 +116,15 @@ options:
               necessary when providing a formula, see the examples)
 
     - name: chiSq
-      title: χ²
+      title: McNemar χ²
       type: Bool
       default: true
       description:
           R: >
-            `TRUE` (default) or `FALSE`, provide χ² (2x2 tables only)
+            `TRUE` (default) or `FALSE`, provide McNemar's χ² (2x2 tables only)
 
     - name: chiSqCorr
-      title: χ² continuity correction
+      title: McNemar χ² continuity correction
       type: Bool
       default: false
       description:

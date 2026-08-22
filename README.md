@@ -13,7 +13,7 @@ measures (mirroring [conttables2xK](../jamovi-conttables-2xK)), and extends it �
   paired design — row/column totals as a share of N — as opposed to the within-row/within-column
   percentages, which compare the wrong margin for matched data);
 - **observed agreement** (as a 0-1 proportion, not a percentage — consistent with kappa's own
-  scale and confidence interval) and **Cohen's kappa**, with a confidence interval;
+  scale) and **Cohen's kappa**, each with its own confidence interval;
 - for **RxR tables** (more than two paired categories): **Bowker's test of symmetry** and the
   **Stuart-Maxwell test of marginal homogeneity**, the natural generalizations of McNemar's χ² and
   the difference-in-proportions test respectively.
@@ -57,21 +57,21 @@ numbers there, and they do:
 
 - **Bowker's test of symmetry** generalizes McNemar's χ² to RxR: it is in fact the *same*
   statistic for R = 2 — base R's `stats::mcnemar.test()` already computes Bowker's formula for any
-  square table, so this module reuses that single call for both the "χ²" row and the "Bowker's test
+  square table, so this module reuses that single call for both the "McNemar χ²" row and the "Bowker's test
   of symmetry" row, rather than re-implementing it. For a 2x2 table both rows show the identical
   value — that's the expected consequence of one generalizing the other, not a bug.
 - **Stuart-Maxwell test of marginal homogeneity** generalizes the difference-in-proportions test:
   an omnibus χ² test (df = R − 1) for whether the row and column marginal distributions differ,
   computed here directly (drop the last category, `statistic = d' S⁻¹ d`) since no dependency
   already ships it. For R = 2 this reduces algebraically to `(b - c)² / (b + c)` — the uncorrected
-  McNemar formula — so it too matches the "χ²" row exactly for a 2x2 table. Cross-checked against
+  McNemar formula — so it too matches the "McNemar χ²" row exactly for a 2x2 table. Cross-checked against
   `DescTools::StuartMaxwellTest` for R > 2 during development (not a package dependency —
   verification only).
 - Only the 2x2-specific comparative measures (odds ratio, difference in proportions, exact
   binomial test, χ² continuity correction — that last one because base R's continuity correction is
   only defined for a true 2x2 table) show as unavailable for R > 2, with a footnote.
-- Agreement (observed % and Cohen's kappa, via `vcd::Kappa`) works unchanged for any RxR table —
-  no generalization needed.
+- Agreement (observed agreement, via `stats::prop.test` for its CI, and Cohen's kappa, via
+  `vcd::Kappa`) works unchanged for any RxR table — no generalization needed.
 
 ## Marginal percentages
 

@@ -15,7 +15,7 @@ items:
         - counts
 
     - name: test
-      title: McNemar Tests
+      title: Paired Tests
       type: Table
       description: a table of test results
       clearWith:
@@ -27,7 +27,7 @@ items:
         - name: name[mcn]
           title: ''
           type: 'text'
-          content: χ²
+          content: McNemar χ²
           visible: (chiSq)
 
         - name: value[mcn]
@@ -48,7 +48,7 @@ items:
         - name: name[cor]
           title: ''
           type: 'text'
-          content: χ² continuity correction
+          content: McNemar χ² continuity correction
           visible: (chiSqCorr)
 
         - name: value[cor]
@@ -241,6 +241,16 @@ items:
         - name: v[obs]
           title: Value
           visible: (agreement)
+
+        - name: cil[obs]
+          title: Lower
+          superTitle: Confidence Intervals
+          visible: (agreement && ci)
+
+        - name: ciu[obs]
+          title: Upper
+          superTitle: Confidence Intervals
+          visible: (agreement && ci)
 
         - name: t[kap]
           title: ''

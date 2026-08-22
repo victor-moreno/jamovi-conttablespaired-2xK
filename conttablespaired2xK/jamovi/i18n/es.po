@@ -190,8 +190,13 @@ msgid "Marginal"
 msgstr "Marginal"
 
 #: contTablesPaired/results/test.title
-msgid "McNemar Tests"
-msgstr "Pruebas de McNemar"
+msgid "Paired Tests"
+msgstr "Pruebas Pareadas"
+
+#: contTablesPaired/options/chiSq.title
+#: contTablesPaired/results/test.columns.content
+msgid "McNemar χ²"
+msgstr "χ² de McNemar"
 
 #: package/analyses/contTablesPaired.menuSubtitle
 #: contTablesPaired/options.menuSubtitle
@@ -287,5 +292,5 @@ msgstr "Valor"
 
 #: contTablesPaired/options/chiSqCorr.title
 #: contTablesPaired/results/test.columns.content
-msgid "χ² continuity correction"
-msgstr "χ² con corrección de continuidad"
+msgid "McNemar χ² continuity correction"
+msgstr "χ² de McNemar con corrección de continuidad"

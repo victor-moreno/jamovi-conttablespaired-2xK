@@ -1,5 +1,41 @@
 # Progress log
 
+## 2026-08-22 (kappa CI investigation, table/label renames)
+
+User reported kappa's 95% CI "doesn't appear" despite my prior verification showing it populated
+in `asDF`. Investigated properly instead of re-asserting the same check:
+- `asDF` and column `$visible` both confirmed correct/TRUE (not the bug).
+- `print(r$agree)` (R console `asString`/`fold()`) showed something suspicious: the CI values
+  visually appeared next to "Observed agreement" instead of "Cohen's kappa". Traced this to
+  `jmvcore`'s `fold()` function (`jamovi-src/jmvcore/R/table-fold.R`) — confirmed by reading its
+  source that this "unstack bracket-suffixed column groups into pseudo-rows" logic is used ONLY by
+  the R-console print method, not by the actual browser/JS client, so the misalignment I saw is an
+  R-print-only artifact, not proof of a real GUI bug. BUT it revealed a genuine structural issue:
+  my `agree` table had ASYMMETRIC column groups (`t[obs]`/`v[obs]` with no CI columns, vs.
+  `t[kap]`/`v[kap]`/`cil[kap]`/`ciu[kap]` with CI columns) — every other multi-measure table in
+  this codebase (and in the reference `conttables2xK`) keeps groups symmetric. Since I couldn't
+  directly inspect the real browser DOM from this environment, and the asymmetry is a real,
+  identifiable deviation from the established (working) pattern, fixed it as the most defensible
+  path: added a genuine 95% CI for "Observed agreement" too (`stats::prop.test`, matching how
+  `conttables2xK` computes its own proportion CIs), making both rows symmetric. This is both a
+  plausible fix for whatever the user is seeing AND a legitimate standalone improvement (a CI for
+  agreement is a natural thing to want). After the fix, `print()`'s fold() view is now also clean
+  (each measure correctly shows its own Value/Lower/Upper) — a good sign, though not 100%
+  conclusive proof for the real browser without the user's own visual check.
+- Separately fixed two literal requests: table title "McNemar Tests" -> "Paired Tests"; "χ²" row/
+  option label -> "McNemar χ²" (and, for consistency, "χ² continuity correction" ->
+  "McNemar χ² continuity correction", since it sits in the same table as Bowker's/Stuart-Maxwell's
+  own χ²-based statistics and would look inconsistent unprefixed).
+- Discovered along the way (jamovi-skill trap, confirmed the hard way): after editing a.yaml/
+  r.yaml to ADD new columns, `R CMD INSTALL` alone is not enough for headless testing — the
+  generated `.h.R` (which defines the R6 base class with the column accessors) is stale until
+  `bash tools/install.sh desktop` (i.e. `jmc`) regenerates it. Hit
+  `Table$getColumn(): col 'cil[obs]' not found` the first time, diagnosed and fixed by rebuilding
+  properly before reinstalling.
+- Updated es/ca i18n by hand for the 3 renamed/new strings (no i18nUpdate(), still avoiding its
+  duplication bug). Updated + extended tests (added cil[obs]/ciu[obs] oracle assertions via
+  `stats::prop.test`, computed independently). **41/41 pass, both locally and in Docker.**
+
 ## 2026-08-22 (3 small fixes: blank pcMarg cells, agreement as proportion, kappa CI)
 
 User asked for three things:
