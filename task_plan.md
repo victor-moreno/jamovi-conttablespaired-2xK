@@ -229,9 +229,26 @@ pcRow/pcCol respectively, independent of the existing `pcMarg` feature
 numerically matches `.total[pcMarg]` (0.59/0.41 on the survey example) --
 same underlying quantity, different option/column. 45/45 local + Docker.
 
+Phase 13 committed and pushed (4b7304b).
+
+### Phase 14 — README split + first releases (complete)
+User: keep the full README content but publish a much shorter one, similar
+size to conttables2xK's (~74 lines). Moved the accumulated detail (grown to
+196 lines over several commits) into DESIGN.md, rewrote README.md to match
+conttables2xK's skeleton exactly (intro+bullets, one condensed reference
+paragraph linking to DESIGN.md, install, layout, building, deps,
+acknowledgment) -- landed at 68 lines/473 words, at or under the target.
+Pushed as 5361ce4.
+
+Mid-turn, user also asked to generate and push releases. Built a fresh
+.jmo, ran `tools/prepare-jmo.sh` for R 4.6.0 and 4.5.3 (all 5 OS/arch
+targets each, matching conttables2xK's exact version coverage), then
+`tools/release.sh` for both -- published v0.1.0-R4.6.0 and v0.1.0-R4.5.3
+on GitHub with all 10 .jmo assets attached. Did not bump the DESCRIPTION
+version (still 0.1.0) -- that's a call left to the user, not implied by
+"generate releases".
+
 ## Next Step
-Commit and push Phase 13. Verification method: Docker
-(`bash tools/install.sh docker`, self-contained), per user's standing
-instruction ("si funciona en docker, funcionará en desktop") — saved as a
-feedback memory. Desktop sideload remains available for the user's own
-optional visual GUI check, but is not the default verification path.
+Module is published with releases. No open items -- future work is
+whatever the user raises next (visual GUI check, real-dataset validation,
+etc. remain optional/ongoing per progress.md's "Still open" notes).

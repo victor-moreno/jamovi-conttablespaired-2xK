@@ -1,5 +1,23 @@
 # Progress log
 
+## 2026-08-22 (README split, first GitHub releases)
+
+Two asks, second arriving mid-turn while doing the first:
+
+1. Keep the detailed README content somewhere, but publish a much shorter README.md, no bigger
+   than conttables2xK's (74 lines/548 words). Copied the existing (196-line) README.md to
+   DESIGN.md as the kept detailed copy, added a one-line pointer at its top back to README.md,
+   then rewrote README.md from scratch matching conttables2xK's exact section skeleton (intro +
+   bullets, one condensed reference-convention paragraph linking out to DESIGN.md for the full
+   derivation, install, repo layout, building, dependencies, acknowledgment) rather than trying to
+   trim the long version paragraph-by-paragraph. Landed at 68 lines/473 words -- at or under the
+   sibling's size, as asked.
+2. "generate releases and push them" -- built a fresh .jmo, ran `tools/prepare-jmo.sh` for R 4.6.0
+   and 4.5.3 (checked conttables2xK's actual release history via `gh release list` first to match
+   its exact version coverage -- both of those, 5 OS/arch targets each), then `tools/release.sh`
+   for both. Published `v0.1.0-R4.6.0` and `v0.1.0-R4.5.3` on GitHub, 10 `.jmo` assets total.
+   Left DESCRIPTION's version at 0.1.0 (didn't bump it unasked).
+
 ## 2026-08-22 (Total column missing % for pcRow/pcCol)
 
 User: jmv's original `contTablesPaired` never showed a percentage in the Total column, even with
