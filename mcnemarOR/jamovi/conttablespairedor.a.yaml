@@ -1,0 +1,260 @@
+---
+name: contTablesPairedOR
+title: Paired Samples Contingency Tables
+
+menuGroup: Frequencies
+menuSubgroup: Contingency Tables
+menuTitle: Paired Samples (OR)
+menuSubtitle: McNemar test, odds ratio, kappa
+
+version: '1.0.0'
+jas: '1.2'
+
+description:
+    main: >
+        McNemar's test for paired binary data, extended with a paired odds
+        ratio and difference in proportions (with confidence intervals),
+        marginal percentages, agreement/kappa, and — for RxR tables —
+        Bowker's test of symmetry and the Stuart-Maxwell test of marginal
+        homogeneity.
+    R:
+        dontrun: false
+        usage: |
+            dat <- data.frame(
+                `1st survey` = c('Approve', 'Approve', 'Disapprove', 'Disapprove'),
+                `2nd survey` = c('Approve', 'Disapprove', 'Approve', 'Disapprove'),
+                `Counts` = c(794, 150, 86, 570),
+                check.names=FALSE)
+
+            mcnemarOR::contTablesPairedOR(formula = Counts ~ `1st survey`:`2nd survey`, data = dat)
+
+            #
+            #  PAIRED SAMPLES CONTINGENCY TABLES
+            #
+            #  McNemar Tests
+            #  ─────────────────────────────────────────────────────
+            #                                Value    df    p
+            #  ─────────────────────────────────────────────────────
+            #    χ²                           17.4     1    < .001
+            #    χ² continuity correction     16.8     1    < .001
+            #  ─────────────────────────────────────────────────────
+            #
+            #
+            #  Comparative Measures
+            #  ─────────────────────────────────────────────────────────────
+            #                                    Value    Lower    Upper
+            #  ─────────────────────────────────────────────────────────────
+            #    Odds ratio                       1.74     1.34     2.28
+            #    Difference in proportions        0.04     0.02     0.06
+            #  ─────────────────────────────────────────────────────────────
+            #
+
+            # Alternatively, omit the left of the formula (`Counts`) from the
+            # formula if each row represents a single observation:
+
+            mcnemarOR::contTablesPairedOR(formula = ~ `1st survey`:`2nd survey`, data = dat)
+
+completeWhenFilled: true
+
+formula:
+    counts:
+        from: lhs
+        type: vars
+        subset: 1
+    rows:
+        from: rhs
+        type: vars
+        subset: 1
+    cols:
+        from: rhs
+        type: vars
+        subset: 2
+
+options:
+    - name: data
+      type: Data
+      description:
+          R: the data as a data frame
+
+    - name: rows
+      title: Rows
+      type: Variable
+      suggested:
+        - nominal
+        - ordinal
+      permitted:
+        - factor
+      description:
+          R: >
+              the variable to use as the rows in the contingency table (not
+              necessary when providing a formula, see the examples)
+
+    - name: cols
+      title: Columns
+      type: Variable
+      suggested:
+        - nominal
+        - ordinal
+      permitted:
+        - factor
+      description:
+          R: >
+              the variable to use as the columns in the contingency table (not
+              necessary when providing a formula, see the examples)
+
+    - name: counts
+      title: Counts (optional)
+      type: Variable
+      suggested:
+        - continuous
+      permitted:
+        - numeric
+      default:
+      description:
+          R: >
+              the variable to use as the counts in the contingency table (not
+              necessary when providing a formula, see the examples)
+
+    - name: chiSq
+      title: χ²
+      type: Bool
+      default: true
+      description:
+          R: >
+            `TRUE` (default) or `FALSE`, provide χ² (2x2 tables only)
+
+    - name: chiSqCorr
+      title: χ² continuity correction
+      type: Bool
+      default: false
+      description:
+          R: >
+            `TRUE` or `FALSE` (default), provide χ² with continuity correction
+            (2x2 tables only)
+
+    - name: exactBinom
+      title: Exact test (binomial)
+      type: Bool
+      default: false
+      description:
+          R: >
+            `TRUE` or `FALSE` (default), provide McNemar's exact test based on
+            the binomial distribution (2x2 tables only)
+
+    - name: symmetry
+      title: Bowker's test of symmetry
+      type: Bool
+      default: true
+      description:
+          R: >
+            `TRUE` (default) or `FALSE`, provide Bowker's test of symmetry
+            (the RxR generalization of McNemar's χ²; only computed for RxR
+            tables with R > 2, i.e. rows and columns sharing more than two
+            categories)
+
+    - name: margHom
+      title: Stuart-Maxwell test of marginal homogeneity
+      type: Bool
+      default: true
+      description:
+          R: >
+            `TRUE` (default) or `FALSE`, provide the Stuart-Maxwell test of
+            marginal homogeneity (the RxR generalization of the difference in
+            proportions test; only computed for RxR tables with R > 2)
+
+    - name: oddsRatio
+      title: Odds ratio
+      type: Bool
+      default: true
+      description:
+          R: >
+            `TRUE` (default) or `FALSE`, provide the paired odds ratio (b/c,
+            Wald confidence interval; 2x2 tables only). Reference is the
+            first category, for both rows and columns
+
+    - name: oddsExact
+      title: Exact odds ratio (conditional MLE)
+      type: Bool
+      default: false
+      description:
+          R: >
+            `TRUE` or `FALSE` (default), provide an exact conditional MLE
+            odds ratio with an exact confidence interval (requires exact2x2
+            to be installed; 2x2 tables only)
+
+    - name: diffProp
+      title: Difference in proportions
+      type: Bool
+      default: true
+      description:
+          R: >
+            `TRUE` (default) or `FALSE`, provide the difference between the
+            two paired (marginal) proportions, with a Wald confidence
+            interval (2x2 tables only). Reference is the first category, for
+            both rows and columns
+
+    - name: ci
+      title: Confidence intervals
+      type: Bool
+      default: true
+      description:
+          R: >
+            `TRUE` (default) or `FALSE`, provide confidence intervals for the
+            comparative measures and for kappa
+
+    - name: ciWidth
+      title: Interval
+      type: Number
+      min: 50
+      max: 99.9
+      default: 95
+      description:
+          R: >
+            a number between 50 and 99.9 (default: 95), width of the
+            confidence intervals to provide
+
+    - name: pcRow
+      title: Row
+      type: Bool
+      default: false
+      description:
+          R: >
+            `TRUE` or `FALSE` (default), provide row percentages
+
+    - name: pcCol
+      title: Column
+      type: Bool
+      default: false
+      description:
+          R: >
+            `TRUE` or `FALSE` (default), provide column percentages
+
+    - name: pcMarg
+      title: Marginal
+      type: Bool
+      default: false
+      description:
+          R: >
+            `TRUE` or `FALSE` (default), provide marginal percentages (each
+            row/column category's share of the grand total) on the Total row
+            and Total column — the relevant percentages for a paired design,
+            as opposed to the within-row/within-column percentages above
+
+    - name: agreement
+      title: Observed agreement
+      type: Bool
+      default: true
+      description:
+          R: >
+            `TRUE` (default) or `FALSE`, provide the observed percentage
+            agreement (the diagonal share of the table)
+
+    - name: kappa
+      title: Cohen's kappa
+      type: Bool
+      default: true
+      description:
+          R: >
+            `TRUE` (default) or `FALSE`, provide Cohen's kappa, with a
+            confidence interval
+...

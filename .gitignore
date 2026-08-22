@@ -1,0 +1,12 @@
+.claude/
+.cache/
+.tmp/
+.venv/
+.envrc
+*.zip
+*.tar
+*.tar.gz
+mcnemarOR/*.jmo
+dist/
+jamovi-conttables-2xK
+jamovi-src

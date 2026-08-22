@@ -1,0 +1,18 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+.claude
+.cache
+.tmp
+.venv
+.envrc
+*.Rcheck
+*.tar.gz
+*.jmo
+dist
+build
+tests/testthat/*.pdf
+
+# compiled from jamovi/i18n/*.po by jmc at build time
+inst/i18n

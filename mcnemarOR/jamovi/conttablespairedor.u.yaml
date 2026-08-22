@@ -1,0 +1,109 @@
+name: contTablesPairedOR
+title: Paired Samples Contingency Tables
+jus: '2.0'
+compilerMode: tame
+children:
+  - type: VariableSupplier
+    persistentItems: false
+    stretchFactor: 1
+    children:
+      - type: TargetLayoutBox
+        children:
+          - type: VariablesListBox
+            name: rows
+            isTarget: true
+            maxItemCount: 1
+      - type: TargetLayoutBox
+        children:
+          - type: VariablesListBox
+            name: cols
+            isTarget: true
+            maxItemCount: 1
+      - type: TargetLayoutBox
+        children:
+          - type: VariablesListBox
+            name: counts
+            isTarget: true
+            maxItemCount: 1
+  - type: LayoutBox
+    margin: large
+    stretchFactor: 1
+    children:
+      - type: LayoutBox
+        cell:
+          column: 0
+          row: 0
+        stretchFactor: 1
+        children:
+          - type: Label
+            label: Tests
+            fitToGrid: true
+            children:
+              - type: CheckBox
+                name: chiSq
+              - type: CheckBox
+                name: chiSqCorr
+              - type: CheckBox
+                name: exactBinom
+              - type: CheckBox
+                name: symmetry
+              - type: CheckBox
+                name: margHom
+      - type: LayoutBox
+        cell:
+          column: 1
+          row: 0
+        stretchFactor: 1
+        children:
+          - type: Label
+            label: Comparative Measures (2x2)
+            fitToGrid: true
+            children:
+              - type: CheckBox
+                name: oddsRatio
+              - type: CheckBox
+                name: oddsExact
+              - type: CheckBox
+                name: diffProp
+              - type: CheckBox
+                name: ci
+                children:
+                  - type: TextBox
+                    name: ciWidth
+                    suffix: '%'
+                    format: number
+                    enable: (ci)
+  - type: LayoutBox
+    margin: large
+    stretchFactor: 1
+    children:
+      - type: LayoutBox
+        cell:
+          column: 0
+          row: 0
+        stretchFactor: 1
+        children:
+          - type: Label
+            label: Percentages
+            fitToGrid: true
+            children:
+              - type: CheckBox
+                name: pcRow
+              - type: CheckBox
+                name: pcCol
+              - type: CheckBox
+                name: pcMarg
+      - type: LayoutBox
+        cell:
+          column: 1
+          row: 0
+        stretchFactor: 1
+        children:
+          - type: Label
+            label: Agreement
+            fitToGrid: true
+            children:
+              - type: CheckBox
+                name: agreement
+              - type: CheckBox
+                name: kappa
