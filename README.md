@@ -49,18 +49,26 @@ and Bowker's/Stuart-Maxwell's tests take over as the hypothesis tests (see below
 
 ## RxR generalization
 
-Bowker's test of symmetry and the Stuart-Maxwell test only appear (are non-blank) when the rows
-and columns variables share the same number of categories and that number is greater than two.
+Bowker's test of symmetry and the Stuart-Maxwell test are computed for **any square table** (rows
+and columns sharing the same categories), including a plain 2x2 table — being generalizations of
+McNemar's χ² and the difference-in-proportions test respectively, they must reduce to those same
+numbers there, and they do:
 
 - **Bowker's test of symmetry** generalizes McNemar's χ² to RxR: it is in fact the *same*
-  statistic — base R's `stats::mcnemar.test()` already computes Bowker's formula for R > 2, so this
-  module reuses that single call and just routes its result to the "χ²" row for 2x2 tables or the
-  "Bowker's test of symmetry" row for RxR tables, rather than re-implementing it.
+  statistic for R = 2 — base R's `stats::mcnemar.test()` already computes Bowker's formula for any
+  square table, so this module reuses that single call for both the "χ²" row and the "Bowker's test
+  of symmetry" row, rather than re-implementing it. For a 2x2 table both rows show the identical
+  value — that's the expected consequence of one generalizing the other, not a bug.
 - **Stuart-Maxwell test of marginal homogeneity** generalizes the difference-in-proportions test:
   an omnibus χ² test (df = R − 1) for whether the row and column marginal distributions differ,
   computed here directly (drop the last category, `statistic = d' S⁻¹ d`) since no dependency
-  already ships it. Cross-checked against `DescTools::StuartMaxwellTest` during development
-  (not a package dependency — verification only).
+  already ships it. For R = 2 this reduces algebraically to `(b - c)² / (b + c)` — the uncorrected
+  McNemar formula — so it too matches the "χ²" row exactly for a 2x2 table. Cross-checked against
+  `DescTools::StuartMaxwellTest` for R > 2 during development (not a package dependency —
+  verification only).
+- Only the 2x2-specific comparative measures (odds ratio, difference in proportions, exact
+  binomial test, χ² continuity correction — that last one because base R's continuity correction is
+  only defined for a true 2x2 table) show as unavailable for R > 2, with a footnote.
 - Agreement (observed % and Cohen's kappa, via `vcd::Kappa`) works unchanged for any RxR table —
   no generalization needed.
 

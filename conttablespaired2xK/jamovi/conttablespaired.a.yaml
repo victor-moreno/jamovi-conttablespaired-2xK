@@ -148,9 +148,9 @@ options:
       description:
           R: >
             `TRUE` (default) or `FALSE`, provide Bowker's test of symmetry
-            (the RxR generalization of McNemar's χ²; only computed for RxR
-            tables with R > 2, i.e. rows and columns sharing more than two
-            categories)
+            (the RxR generalization of McNemar's χ²; computed for any square
+            table, i.e. rows and columns sharing the same categories -- for a
+            2x2 table it is numerically identical to the uncorrected χ²)
 
     - name: margHom
       title: Stuart-Maxwell test of marginal homogeneity
@@ -160,7 +160,8 @@ options:
           R: >
             `TRUE` (default) or `FALSE`, provide the Stuart-Maxwell test of
             marginal homogeneity (the RxR generalization of the difference in
-            proportions test; only computed for RxR tables with R > 2)
+            proportions test; computed for any square table -- for a 2x2
+            table it is numerically identical to the uncorrected McNemar χ²)
 
     - name: oddsRatio
       title: Odds ratio

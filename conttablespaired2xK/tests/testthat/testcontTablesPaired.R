@@ -26,8 +26,13 @@ testthat::test_that('2x2 tests, comparative measures and agreement match oracle 
     testthat::expect_equal(test[['df[mcn]']], 1)
     testthat::expect_equal(test[['value[cor]']], 16.817797, tolerance=1e-5)
     testthat::expect_equal(test[['p[bin]']], 3.715936e-05, tolerance=1e-6)
-    testthat::expect_true(is.nan(test[['value[bow]']]))
-    testthat::expect_true(is.nan(test[['value[sm]']]))
+    # Bowker's test and Stuart-Maxwell are generalizations of McNemar's
+    # chi-square, so for a genuine 2x2 table they must reduce to (be
+    # numerically identical to) the same uncorrected chi-square value
+    testthat::expect_equal(test[['value[bow]']], 17.355932, tolerance=1e-5)
+    testthat::expect_equal(test[['df[bow]']], 1)
+    testthat::expect_equal(test[['value[sm]']], 17.355932, tolerance=1e-5)
+    testthat::expect_equal(test[['df[sm]']], 1)
     testthat::expect_equal(test[['value[n]']], 1600)
 
     odds <- r$odds$asDF

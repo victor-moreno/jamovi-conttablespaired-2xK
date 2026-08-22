@@ -277,27 +277,27 @@ contTablesPairedClass <- R6::R6Class(
                 values[['value[bow]']] <- NaN
                 values[['df[bow]']] <- ''
                 values[['p[bow]']]  <- ''
-            } else if (is2x2) {
-                values[['value[mcn]']] <- unname(sym$statistic)
-                values[['df[mcn]']] <- unname(sym$parameter)
-                values[['p[mcn]']]  <- sym$p.value
-                values[['value[bow]']] <- NaN
-                values[['df[bow]']] <- ''
-                values[['p[bow]']]  <- ''
-            } else if (isRxR) {
-                values[['value[mcn]']] <- NaN
-                values[['df[mcn]']] <- ''
-                values[['p[mcn]']]  <- ''
+            } else {
+                # Bowker's test of symmetry generalizes McNemar's chi-square
+                # to RxR; stats::mcnemar.test() already computes Bowker's
+                # formula whenever the table is square, so the SAME `sym`
+                # object is the right answer for any square table, 2x2
+                # included. For 2x2 it is numerically IDENTICAL to the
+                # uncorrected chi-square (both rows show the same value) --
+                # that equality is expected, not a display bug.
                 values[['value[bow]']] <- unname(sym$statistic)
                 values[['df[bow]']] <- unname(sym$parameter)
                 values[['p[bow]']]  <- sym$p.value
-            } else {
-                values[['value[mcn]']] <- NaN
-                values[['df[mcn]']] <- ''
-                values[['p[mcn]']]  <- ''
-                values[['value[bow]']] <- NaN
-                values[['df[bow]']] <- ''
-                values[['p[bow]']]  <- ''
+
+                if (is2x2) {
+                    values[['value[mcn]']] <- unname(sym$statistic)
+                    values[['df[mcn]']] <- unname(sym$parameter)
+                    values[['p[mcn]']]  <- sym$p.value
+                } else {
+                    values[['value[mcn]']] <- NaN
+                    values[['df[mcn]']] <- ''
+                    values[['p[mcn]']]  <- ''
+                }
             }
 
             if (base::inherits(wcor, 'try-error') || is.null(wcor) || is.na(wcor$statistic)) {
@@ -329,9 +329,10 @@ contTablesPairedClass <- R6::R6Class(
             }
             values[['df[bin]']] <- ''
 
-            #### Stuart-Maxwell (RxR only) ####
+            #### Stuart-Maxwell (any square table; reduces to McNemar's ####
+            #### chi-square for 2x2, same as Bowker's test above) ####
 
-            if (isRxR) {
+            if (square) {
                 sm <- try(private$.stuartMaxwell(result), silent=TRUE)
                 if (base::inherits(sm, 'try-error') || is.na(sm$statistic)) {
                     values[['value[sm]']] <- NaN
@@ -355,10 +356,8 @@ contTablesPairedClass <- R6::R6Class(
 
             if (base::inherits(sym, 'try-error')) {
                 error <- translateError(sym)
-                if (is2x2 || square)
-                    test$addFootnote(rowNo=1, 'value[mcn]', error)
-                if (isRxR || square)
-                    test$addFootnote(rowNo=1, 'value[bow]', error)
+                test$addFootnote(rowNo=1, 'value[mcn]', error)
+                test$addFootnote(rowNo=1, 'value[bow]', error)
             }
             if ( ! square) {
                 notSquareMsg <- .('The table must be square (rows and columns must share the same categories)')
@@ -369,12 +368,9 @@ contTablesPairedClass <- R6::R6Class(
                 test$addFootnote(rowNo=1, 'value[sm]', notSquareMsg)
             } else if (isRxR) {
                 only2x2Msg <- .('Available for 2x2 tables only')
+                test$addFootnote(rowNo=1, 'value[mcn]', only2x2Msg)
                 test$addFootnote(rowNo=1, 'value[cor]', only2x2Msg)
                 test$addFootnote(rowNo=1, 'value[bin]', only2x2Msg)
-            } else if (is2x2) {
-                onlyRxRMsg <- .('Available for RxR tables only (more than two categories)')
-                test$addFootnote(rowNo=1, 'value[bow]', onlyRxRMsg)
-                test$addFootnote(rowNo=1, 'value[sm]', onlyRxRMsg)
             }
 
             if (is2x2 && (b + c) > 0 && (b + c) < 25 && self$options$chiSq && ! self$options$exactBinom) {

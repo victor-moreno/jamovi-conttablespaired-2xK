@@ -149,12 +149,19 @@ User asked (2026-08-22, follow-up turn) to rename before installing:
   documented as a caveat in README so it isn't silently reintroduced next
   time someone runs `i18nUpdate()`.
 
+### Phase 8 — Fix Bowker/Stuart-Maxwell for 2x2 (complete)
+User caught: Bowker's/Stuart-Maxwell showed NaN for a plain 2x2 table,
+gated to `isRxR` only. Verified algebraically that both reduce to the exact
+uncorrected McNemar chi-square formula at R=2, so gating them off there was
+wrong. Fixed to compute for any `square` table; removed the now-dead
+"RxR tables only" footnote/i18n entry; updated a.yaml descriptions, README,
+and tests (37/37 local + 37/37 in Docker, per user's standing "use Docker"
+instruction). See progress.md for full detail.
+
 ## Next Step
-All phases complete, including the rename. Only remaining item: the user
-sideloads the built .jmo (`conttablespaired2xK/conttablespaired2xK_0.1.0.jmo`,
-rebuild via `bash tools/install.sh desktop` if needed) by hand once via
-jamovi -> Modules -> Sideload (SingletonLock sandbox issue prevented
-jmvtools from doing this automatically), and eyeballs the real UI rendering
-(footnote letters, options panel layout, Spanish/Catalan display when jamovi
-is set to those languages) since that hasn't been visually verified, only
-R-level computation.
+Verification method going forward: Docker (`bash tools/install.sh docker`
++ copy `tests/` in + `testthat::test_dir()`), per user's explicit
+instruction ("si funciona en docker, funcionará en desktop") — saved as a
+feedback memory. Desktop sideload (`conttablespaired2xK_0.1.0.jmo`, rebuild
+via `bash tools/install.sh desktop`) remains available for the user's own
+optional visual GUI check, but is no longer the default verification path.

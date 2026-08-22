@@ -69,10 +69,6 @@ msgstr "Concordança"
 msgid "Available for 2x2 tables only"
 msgstr "Disponible només per a taules 2x2"
 
-#: R/conttablespaired.b.R
-msgid "Available for RxR tables only (more than two categories)"
-msgstr "Disponible només per a taules RxR (més de dues categories)"
-
 #: contTablesPaired/options/symmetry.title
 #: contTablesPaired/results/test.columns.content
 msgid "Bowker's test of symmetry"

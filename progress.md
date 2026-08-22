@@ -1,5 +1,26 @@
 # Progress log
 
+## 2026-08-22 (bug fix — Bowker/Stuart-Maxwell showed NaN for 2x2)
+
+User caught a real design bug: Bowker's test and Stuart-Maxwell were gated to `isRxR` (R > 2)
+only, showing NaN + "RxR tables only" footnote for a plain 2x2 table. User's objection: "si son
+generalizaciones, deberían poderse usar en el caso 2x2" — correct. Verified algebraically:
+Stuart-Maxwell for k=2 reduces to `d = b-c`, `S = b+c`, `statistic = (b-c)²/(b+c)` — exactly the
+uncorrected McNemar formula. Bowker's IS the same `stats::mcnemar.test()` call already used for
+χ², just gated off for 2x2 for no good reason.
+
+Fix: both now compute for any `square` table (not just `isRxR`); for 2x2 they show the same value
+as the "χ²" row (expected, not a bug — that equality is the whole point of "generalization").
+Removed the now-dead "Available for RxR tables only" footnote/msgid (from both es.po/ca.po, by
+hand — not via `i18nUpdate()`, to avoid its known duplication bug). Updated a.yaml option
+descriptions and README's "RxR generalization" section to state this correctly. Updated the 2x2
+test in testthat to assert equality with 17.355932 instead of `is.nan()`.
+
+Rebuilt and retested both ways per the user's standing instruction to use Docker as the primary
+verification path: local `R CMD INSTALL` (37/37, was 35/37 + 2 new df assertions) and Docker
+`tools/install.sh docker` + full `testthat::test_dir()` run inside the container (37/37, tests/
+copied in separately since the docker install path only tars `DESCRIPTION NAMESPACE R jamovi`).
+
 ## 2026-08-22
 
 - Read jmv's original `contTablesPaired` (McNemar) and conttables2xK's
