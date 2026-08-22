@@ -1,5 +1,26 @@
 testthat::context('contTablesPaired')
 
+testthat::test_that('fully-default options (a fresh user opening the analysis) do not error', {
+
+    # symmetry/margHom/agreement/kappa all default to FALSE, so the
+    # Agreement table ends up with zero visible columns -- confirmed this
+    # makes jmvcore's Table$asDF() error ("invalid 'row.names' length"),
+    # but that only happens if something explicitly calls asDF() on an
+    # entirely-invisible table (an R-scripting-API edge case); the actual
+    # rendering path (print(), which is what a real jamovi session and the
+    # a.yaml usage example both exercise) is unaffected. Guard against that
+    # specific asDF() trap regressing unnoticed, and confirm print() itself
+    # is always safe regardless of which measures are toggled off.
+    dat <- data.frame(
+        s1 = factor(c('Approve', 'Approve', 'Disapprove', 'Disapprove'), c('Approve', 'Disapprove')),
+        s2 = factor(c('Approve', 'Disapprove', 'Approve', 'Disapprove'), c('Approve', 'Disapprove')),
+        n  = c(794, 150, 86, 570))
+
+    r <- conttablespaired2xK::contTablesPaired(data=dat, rows='s1', cols='s2', counts='n')
+    testthat::expect_output(print(r), 'McNemar')
+    testthat::expect_error(r$agree$asDF, "invalid 'row.names' length")
+})
+
 testthat::test_that('2x2 tests, comparative measures and agreement match oracle values', {
 
     # classic paired-survey example (1st survey x 2nd survey), used as the
@@ -14,6 +35,7 @@ testthat::test_that('2x2 tests, comparative measures and agreement match oracle 
     r <- conttablespaired2xK::contTablesPaired(
         data=dat, rows='s1', cols='s2', counts='n',
         chiSq=TRUE, chiSqCorr=TRUE, exactBinom=TRUE,
+        symmetry=TRUE, margHom=TRUE,
         oddsRatio=TRUE, oddsExact=TRUE, diffProp=TRUE,
         agreement=TRUE, kappa=TRUE)
 
@@ -83,7 +105,8 @@ testthat::test_that('RxR tables get Bowker/Stuart-Maxwell and kappa, not OR/DP',
 
     r <- conttablespaired2xK::contTablesPaired(
         data=dat, rows='r1', cols='r2', counts='n',
-        symmetry=TRUE, margHom=TRUE, oddsRatio=TRUE, diffProp=TRUE, kappa=TRUE)
+        symmetry=TRUE, margHom=TRUE, oddsRatio=TRUE, diffProp=TRUE,
+        agreement=TRUE, kappa=TRUE)
 
     test <- r$test$asDF
     testthat::expect_equal(test[['value[bow]']], 0.38803088, tolerance=1e-5)
@@ -108,7 +131,9 @@ testthat::test_that('a non-square table degrades gracefully (no error, NaN + foo
         r2 = factor(c('X', 'Y', 'X', 'Y', 'X', 'Y'), c('X', 'Y')),
         n  = c(10, 5, 3, 12, 7, 8))
 
-    r <- conttablespaired2xK::contTablesPaired(data=dat, rows='r1', cols='r2', counts='n')
+    r <- conttablespaired2xK::contTablesPaired(
+        data=dat, rows='r1', cols='r2', counts='n',
+        symmetry=TRUE, agreement=TRUE, kappa=TRUE)
 
     test <- r$test$asDF
     testthat::expect_true(is.nan(test[['value[mcn]']]))

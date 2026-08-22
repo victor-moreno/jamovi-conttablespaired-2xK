@@ -85,6 +85,22 @@ and the Total *row* shows each column category's share of N (the column variable
 proportion) — interior cells are left blank, since a marginal percentage isn't defined for an
 individual cell.
 
+## Example datasets
+
+Two fabricated datasets ship with the module (**Open -> Data Library** in jamovi) to try each
+mode without needing your own data:
+
+- **McNemar - Nausea Before/After Treatment (2x2)** (`data/mcnemar_nausea_2x2.csv`, n=200) — a
+  paired binary example (nausea present/absent before/after an antiemetic) for the classic
+  2x2 case: McNemar's χ², the paired odds ratio, difference in proportions, agreement/kappa.
+- **McNemar - Severity at Two Visits (4 categories)** (`data/mcnemar_severity_4cat.csv`, n=160) —
+  a paired ordinal example (None/Mild/Moderate/Severe at two visits) for the RxR case: Bowker's
+  test of symmetry and the Stuart-Maxwell test of marginal homogeneity.
+
+Both are simulated (`set.seed()`-reproducible, not real patient data) with a deliberate effect
+built in, so the tests come back significant and the tables aren't empty/degenerate — useful for
+demonstration and for the module's own tests, not for anything clinical.
+
 ## Installation (sideload)
 
 Build the module (see below), then in jamovi: **Modules -> jamovi library -> Sideload** and select
@@ -92,7 +108,8 @@ the built `.jmo` file (`conttablespaired2xK/conttablespaired2xK_<version>.jmo`).
 
 ## Repository layout
 
-- `conttablespaired2xK/` — R package source (analysis definitions, R code, jamovi UI yaml)
+- `conttablespaired2xK/` — R package source (analysis definitions, R code, jamovi UI yaml,
+  `data/` example datasets, `tests/testthat/`)
 - `tools/` — build and install helper scripts (adapted from `conttables2xK`)
 - `task_plan.md`, `findings.md`, `progress.md` — development working notes
 
@@ -101,11 +118,17 @@ the built `.jmo` file (`conttablespaired2xK/conttablespaired2xK_<version>.jmo`).
 ```
 bash tools/install.sh desktop   # builds conttablespaired2xK/conttablespaired2xK_<version>.jmo and
                                  # installs it into jamovi.app (macOS) using ~/R/.Rlib-arm or .Rlib-x64
-bash tools/install.sh docker    # same, into a running `jamovi` Docker container (needs jmc)
+bash tools/install.sh docker    # same, into a running `jamovi` Docker container (needs jmc) --
+                                 # also runs the full testthat suite inside the container
 bash tools/install.sh           # both, whichever are available
 ```
 
-If jmvtools can't drive jamovi.app directly (a `SingletonLock` permission error, seen in sandboxed
+The **Docker path is the primary way to verify changes** in this project: it builds through the
+real jamovi compiler (`jmc`), installs into a running jamovi server, and runs the full test suite
+against that install — a fuller check than `R CMD INSTALL` + `testthat::test_dir()` alone, since it
+exercises the actual compiled `.h.R`/`.js`/`i18n/*.json` the way jamovi itself would load them.
+`bash tools/install.sh desktop` builds the same `.jmo` for a one-off visual check, but if
+`jmvtools` can't drive jamovi.app directly (a `SingletonLock` permission error, seen in sandboxed
 environments even when jamovi.app isn't running), the `.jmo` is still built — sideload it by hand
 as described above.
 

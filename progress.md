@@ -1,5 +1,42 @@
 # Progress log
 
+## 2026-08-22 (example datasets, default-value changes, GitHub prep)
+
+User changed 4 option defaults themselves in a.yaml (symmetry/margHom/agreement/kappa: true ->
+false, leaning the default view down to just the classic 2x2 McNemar output) and asked for: fixing
+the now-stale "TRUE (default)" doc text (done, all 4), two fabricated example datasets (one 2x2
+binary, one 4-category), and preparing a GitHub push via `gh`.
+
+- Datasets: generated with `set.seed()` for reproducibility. First 4-category attempt (a strict
+  "shift by exactly one category" Markov model) accidentally produced a table with a
+  simultaneously-zero (i,j)/(j,i) discordant cell pair (None<->Severe) -- confirmed this is a real
+  limitation of base R's own `stats::mcnemar.test()` (returns statistic=NaN, not a bug I
+  introduced) by reproducing it directly against the raw matrix. Fixed by switching to a
+  continuous-latent-severity + normal-noise generation model (allows occasional bigger jumps),
+  which avoids the structural zero and gives a clean, significant Bowker's/Stuart-Maxwell result.
+  Registered both via `datasets:` in `0000.yaml` (jmv's own format, confirmed by inspecting
+  `jamovi-src/jmv/jamovi/0000.yaml`) -- verified this key survives `jmc`'s regeneration of
+  `0000.yaml` on rebuild, and that `jmc --install` actually copies the CSVs into the `.jmo`
+  (checked with `unzip -l`).
+- Discovered and fixed a real `asDF()` gap while updating tests for the new defaults: when BOTH
+  `agreement` and `kappa` are off (the new default), the "Agreement" table has zero visible
+  columns, and calling `.asDF()` on it throws `invalid 'row.names' length` -- confirmed this is a
+  jmvcore-level edge case (fully-invisible-table + explicit `asDF()` call) and NOT something the
+  real GUI hits (verified `print()` on a fully-default analysis renders cleanly, Agreement section
+  just doesn't appear at all, no error) -- so left it as a documented, regression-tested caveat
+  rather than trying to patch jmvcore itself.
+- Fixed all my own testthat calls that relied on the old TRUE defaults (several didn't explicitly
+  pass `symmetry`/`margHom`/`agreement`), plus added a dedicated test locking in both the safe
+  print() path and the asDF() caveat above.
+- Improved `tools/install.sh docker`: it previously needed a manual second `tar` + `docker exec`
+  step to get `tests/` into the container for a full suite run (mentioned nowhere in the script
+  itself, I'd been doing it by hand each time). Now copies `data/` and `tests/` automatically
+  (conditionally, if present) and runs `testthat::test_dir()` inside the container as part of the
+  normal `bash tools/install.sh docker` call -- matches the user's standing "Docker is the primary
+  verification path" instruction without the manual dance.
+- **43/43 tests pass, both locally and in Docker** (up from 41 -- 2 new: the datasets round-trip
+  implicitly via the existing oracle tests still passing, plus the new default-options test).
+
 ## 2026-08-22 (kappa CI investigation, table/label renames)
 
 User reported kappa's 95% CI "doesn't appear" despite my prior verification showing it populated

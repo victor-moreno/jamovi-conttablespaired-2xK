@@ -144,10 +144,10 @@ options:
     - name: symmetry
       title: Bowker's test of symmetry
       type: Bool
-      default: true
+      default: false
       description:
           R: >
-            `TRUE` (default) or `FALSE`, provide Bowker's test of symmetry
+            `TRUE` or `FALSE` (default), provide Bowker's test of symmetry
             (the RxR generalization of McNemar's χ²; computed for any square
             table, i.e. rows and columns sharing the same categories -- for a
             2x2 table it is numerically identical to the uncorrected χ²)
@@ -155,10 +155,10 @@ options:
     - name: margHom
       title: Stuart-Maxwell test of marginal homogeneity
       type: Bool
-      default: true
+      default: false
       description:
           R: >
-            `TRUE` (default) or `FALSE`, provide the Stuart-Maxwell test of
+            `TRUE` or `FALSE` (default), provide the Stuart-Maxwell test of
             marginal homogeneity (the RxR generalization of the difference in
             proportions test; computed for any square table -- for a 2x2
             table it is numerically identical to the uncorrected McNemar χ²)
@@ -244,18 +244,18 @@ options:
     - name: agreement
       title: Observed agreement
       type: Bool
-      default: true
+      default: false
       description:
           R: >
-            `TRUE` (default) or `FALSE`, provide the observed percentage
-            agreement (the diagonal share of the table)
+            `TRUE` or `FALSE` (default), provide the observed agreement (the
+            diagonal share of the table, as a proportion)
 
     - name: kappa
       title: Cohen's kappa
       type: Bool
-      default: true
+      default: false
       description:
           R: >
-            `TRUE` (default) or `FALSE`, provide Cohen's kappa, with a
+            `TRUE` or `FALSE` (default), provide Cohen's kappa, with a
             confidence interval
 ...

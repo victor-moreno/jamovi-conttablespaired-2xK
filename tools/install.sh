@@ -84,7 +84,10 @@ install_docker() {
   echo ">> docker: copying source into $CONTAINER"
   # --no-mac-metadata/--no-xattrs: AppleDouble ._ files otherwise land in the
   # container and jmc tries to compile them.
-  tar --no-mac-metadata --no-xattrs -C "$HERE" -cf - DESCRIPTION NAMESPACE R jamovi \
+  SRC_ITEMS=(DESCRIPTION NAMESPACE R jamovi)
+  [ -d "$HERE/data" ] && SRC_ITEMS+=(data)
+  [ -d "$HERE/tests" ] && SRC_ITEMS+=(tests)
+  tar --no-mac-metadata --no-xattrs -C "$HERE" -cf - "${SRC_ITEMS[@]}" \
     | docker exec -i "$CONTAINER" sh -c \
         'rm -rf /tmp/conttablespaired2xK-src && mkdir -p /tmp/conttablespaired2xK-src && tar -C /tmp/conttablespaired2xK-src -xf -'
 
@@ -132,6 +135,24 @@ Rscript --vanilla -e '
     cat(sprintf("   paired odds-ratio smoke test passed (OR = %.3f)\n", or[["v[o]"]][1]))
 '
 INCONTAINER
+
+  if [ -d "$HERE/tests/testthat" ]; then
+    echo ">> docker: running the full testthat suite"
+    docker exec -i "$CONTAINER" bash -s <<'INCONTAINER'
+set -euo pipefail
+cd /tmp/conttablespaired2xK-src
+Rscript --vanilla -e '
+    .libPaths(c(
+        "/usr/lib/jamovi/modules/base/R",
+        "/usr/lib/jamovi/modules/conttablespaired2xK/R",
+        .libPaths()
+    ))
+    library(testthat)
+    library(conttablespaired2xK)
+    test_dir("tests/testthat", package="conttablespaired2xK")
+'
+INCONTAINER
+  fi
   echo ">> docker: installed conttablespaired2xK; open Frequencies > Contingency Tables > Paired Samples (2xK) to verify"
 }
 

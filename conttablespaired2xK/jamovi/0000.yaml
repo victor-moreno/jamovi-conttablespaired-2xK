@@ -29,6 +29,17 @@ analyses:
       percentages, agreement/kappa, and — for RxR tables — Bowker's test of
       symmetry and the Stuart-Maxwell test of marginal homogeneity.
     category: analyses
+datasets:
+  - name: McNemar - Nausea Before/After Treatment (2x2)
+    path: mcnemar_nausea_2x2.csv
+    description: >-
+      Fabricated paired binary data (n=200) -- nausea present/absent before and
+      after an antiemetic
+  - name: McNemar - Severity at Two Visits (4 categories)
+    path: mcnemar_severity_4cat.csv
+    description: >-
+      Fabricated paired ordinal data (n=160) -- disease severity
+      (None/Mild/Moderate/Severe) at two visits, for Bowker's/Stuart-Maxwell
 usesNative: true
 minApp: 1.0.8
 

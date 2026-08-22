@@ -182,10 +182,25 @@ holds Bowker's/Stuart-Maxwell's own χ²-based rows. Hit the "R CMD INSTALL
 without rebuilding .h.R first" trap when adding new columns -- documented
 in progress.md. 41/41 local + 41/41 Docker.
 
+### Phase 11 — example datasets, default-value fixes, GitHub prep (complete)
+User changed 4 a.yaml defaults to FALSE (symmetry/margHom/agreement/kappa);
+fixed the resulting stale "TRUE (default)" doc text. Added two bundled
+example datasets (`data/mcnemar_nausea_2x2.csv`, 2x2;
+`data/mcnemar_severity_4cat.csv`, 4-category) registered via `datasets:` in
+0000.yaml, verified they survive jmc's regen and get copied into the
+`.jmo`. Fixed several testthat calls broken by the new FALSE defaults
+(missing explicit symmetry=/margHom=/agreement=TRUE), and found+documented
+a real jmvcore edge case (asDF() on a fully-invisible table errors) that
+doesn't affect the real GUI. Made `tools/install.sh docker` self-sufficient
+(copies data/+tests/, runs the full suite) instead of needing a manual
+second step each time. 43/43 local + 43/43 Docker.
+
 ## Next Step
-Verification method going forward: Docker (`bash tools/install.sh docker`
-+ copy `tests/` in + `testthat::test_dir()`), per user's explicit
-instruction ("si funciona en docker, funcionará en desktop") — saved as a
-feedback memory. Desktop sideload (`conttablespaired2xK_0.1.0.jmo`, rebuild
-via `bash tools/install.sh desktop`) remains available for the user's own
+Push to GitHub: victor-moreno/jamovi-conttablespaired-2xK via `gh`, mirroring
+conttables2xK's repo conventions (public, no GitHub-side description set).
+Verification method going forward: Docker (`bash tools/install.sh docker`,
+now fully self-contained), per user's explicit instruction ("si funciona en
+docker, funcionará en desktop") — saved as a feedback memory. Desktop
+sideload (`conttablespaired2xK_0.1.0.jmo`, rebuild via
+`bash tools/install.sh desktop`) remains available for the user's own
 optional visual GUI check, but is no longer the default verification path.

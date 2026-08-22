@@ -12,8 +12,8 @@ contTablesPairedOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6
             chiSq = TRUE,
             chiSqCorr = FALSE,
             exactBinom = FALSE,
-            symmetry = TRUE,
-            margHom = TRUE,
+            symmetry = FALSE,
+            margHom = FALSE,
             oddsRatio = TRUE,
             oddsExact = FALSE,
             diffProp = TRUE,
@@ -22,8 +22,8 @@ contTablesPairedOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6
             pcRow = FALSE,
             pcCol = FALSE,
             pcMarg = FALSE,
-            agreement = TRUE,
-            kappa = TRUE, ...) {
+            agreement = FALSE,
+            kappa = FALSE, ...) {
 
             super$initialize(
                 package="conttablespaired2xK",
@@ -70,11 +70,11 @@ contTablesPairedOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6
             private$..symmetry <- jmvcore::OptionBool$new(
                 "symmetry",
                 symmetry,
-                default=TRUE)
+                default=FALSE)
             private$..margHom <- jmvcore::OptionBool$new(
                 "margHom",
                 margHom,
-                default=TRUE)
+                default=FALSE)
             private$..oddsRatio <- jmvcore::OptionBool$new(
                 "oddsRatio",
                 oddsRatio,
@@ -112,11 +112,11 @@ contTablesPairedOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6
             private$..agreement <- jmvcore::OptionBool$new(
                 "agreement",
                 agreement,
-                default=TRUE)
+                default=FALSE)
             private$..kappa <- jmvcore::OptionBool$new(
                 "kappa",
                 kappa,
-                default=TRUE)
+                default=FALSE)
 
             self$.addOption(private$..rows)
             self$.addOption(private$..cols)
@@ -533,11 +533,11 @@ contTablesPairedBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Cla
 #'   continuity correction (2x2 tables only)
 #' @param exactBinom \code{TRUE} or \code{FALSE} (default), provide McNemar's
 #'   exact test based on the binomial distribution (2x2 tables only)
-#' @param symmetry \code{TRUE} (default) or \code{FALSE}, provide Bowker's
+#' @param symmetry \code{TRUE} or \code{FALSE} (default), provide Bowker's
 #'   test of symmetry (the RxR generalization of McNemar's X²; computed for any
 #'   square table, i.e. rows and columns sharing the same categories -- for a
 #'   2x2 table it is numerically identical to the uncorrected X²)
-#' @param margHom \code{TRUE} (default) or \code{FALSE}, provide the
+#' @param margHom \code{TRUE} or \code{FALSE} (default), provide the
 #'   Stuart-Maxwell test of marginal homogeneity (the RxR generalization of the
 #'   difference in proportions test; computed for any square table -- for a 2x2
 #'   table it is numerically identical to the uncorrected McNemar X²)
@@ -562,9 +562,9 @@ contTablesPairedBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Cla
 #'   percentages (each row/column category's share of the grand total) on the
 #'   Total row and Total column — the relevant percentages for a paired design,
 #'   as opposed to the within-row/within-column percentages above
-#' @param agreement \code{TRUE} (default) or \code{FALSE}, provide the
-#'   observed percentage agreement (the diagonal share of the table)
-#' @param kappa \code{TRUE} (default) or \code{FALSE}, provide Cohen's kappa,
+#' @param agreement \code{TRUE} or \code{FALSE} (default), provide the
+#'   observed agreement (the diagonal share of the table, as a proportion)
+#' @param kappa \code{TRUE} or \code{FALSE} (default), provide Cohen's kappa,
 #'   with a confidence interval
 #' @param formula (optional) the formula to use, see the examples
 #' @return A results object containing:
@@ -590,8 +590,8 @@ contTablesPaired <- function(
     chiSq = TRUE,
     chiSqCorr = FALSE,
     exactBinom = FALSE,
-    symmetry = TRUE,
-    margHom = TRUE,
+    symmetry = FALSE,
+    margHom = FALSE,
     oddsRatio = TRUE,
     oddsExact = FALSE,
     diffProp = TRUE,
@@ -600,8 +600,8 @@ contTablesPaired <- function(
     pcRow = FALSE,
     pcCol = FALSE,
     pcMarg = FALSE,
-    agreement = TRUE,
-    kappa = TRUE,
+    agreement = FALSE,
+    kappa = FALSE,
     formula) {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
