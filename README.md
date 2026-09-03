@@ -42,7 +42,7 @@ your OS and jamovi's bundled R version (check **Help -> About** in jamovi), then
 
 ```
 bash tools/install.sh desktop   # builds conttablespaired2xK/conttablespaired2xK_<version>.jmo and
-                                 # installs it into jamovi.app (macOS) using ~/R/.Rlib-arm or .Rlib-x64
+                                 # installs it into jamovi.app (macOS) using whichever R `Rscript` resolves to
 bash tools/install.sh docker    # same, into a running `jamovi` Docker container -- also runs the
                                  # full testthat suite; the primary way to verify changes here
 bash tools/install.sh           # both, whichever are available

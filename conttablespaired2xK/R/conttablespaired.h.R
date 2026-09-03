@@ -23,7 +23,8 @@ contTablesPairedOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6
             pcCol = FALSE,
             pcMarg = FALSE,
             agreement = FALSE,
-            kappa = FALSE, ...) {
+            kappa = FALSE,
+            kappaWeighted = FALSE, ...) {
 
             super$initialize(
                 package="conttablespaired2xK",
@@ -117,6 +118,10 @@ contTablesPairedOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6
                 "kappa",
                 kappa,
                 default=FALSE)
+            private$..kappaWeighted <- jmvcore::OptionBool$new(
+                "kappaWeighted",
+                kappaWeighted,
+                default=FALSE)
 
             self$.addOption(private$..rows)
             self$.addOption(private$..cols)
@@ -136,6 +141,7 @@ contTablesPairedOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6
             self$.addOption(private$..pcMarg)
             self$.addOption(private$..agreement)
             self$.addOption(private$..kappa)
+            self$.addOption(private$..kappaWeighted)
         }),
     active = list(
         rows = function() private$..rows$value,
@@ -155,7 +161,8 @@ contTablesPairedOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6
         pcCol = function() private$..pcCol$value,
         pcMarg = function() private$..pcMarg$value,
         agreement = function() private$..agreement$value,
-        kappa = function() private$..kappa$value),
+        kappa = function() private$..kappa$value,
+        kappaWeighted = function() private$..kappaWeighted$value),
     private = list(
         ..rows = NA,
         ..cols = NA,
@@ -174,7 +181,8 @@ contTablesPairedOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6
         ..pcCol = NA,
         ..pcMarg = NA,
         ..agreement = NA,
-        ..kappa = NA)
+        ..kappa = NA,
+        ..kappaWeighted = NA)
 )
 
 contTablesPairedResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -409,7 +417,7 @@ contTablesPairedResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6
                 options=options,
                 name="agree",
                 title="Agreement",
-                visible="(agreement || kappa)",
+                visible="(agreement || kappa || kappaWeighted)",
                 clearWith=list(
                     "rows",
                     "cols",
@@ -458,7 +466,30 @@ contTablesPairedResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6
                         `name`="ciu[kap]", 
                         `title`="Upper", 
                         `superTitle`="Confidence Intervals", 
-                        `visible`="(kappa && ci)"))))}))
+                        `visible`="(kappa && ci)"),
+                    list(
+                        `name`="t[wkap]", 
+                        `title`="", 
+                        `type`="text", 
+                        `content`="Weighted kappa", 
+                        `visible`="(kappaWeighted)", 
+                        `refs`=list(
+                            "vcd",
+                            "cohen1968")),
+                    list(
+                        `name`="v[wkap]", 
+                        `title`="Value", 
+                        `visible`="(kappaWeighted)"),
+                    list(
+                        `name`="cil[wkap]", 
+                        `title`="Lower", 
+                        `superTitle`="Confidence Intervals", 
+                        `visible`="(kappaWeighted && ci)"),
+                    list(
+                        `name`="ciu[wkap]", 
+                        `title`="Upper", 
+                        `superTitle`="Confidence Intervals", 
+                        `visible`="(kappaWeighted && ci)"))))}))
 
 contTablesPairedBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "contTablesPairedBase",
@@ -570,6 +601,9 @@ contTablesPairedBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Cla
 #'   observed agreement (the diagonal share of the table, as a proportion)
 #' @param kappa \code{TRUE} or \code{FALSE} (default), provide Cohen's kappa,
 #'   with a confidence interval
+#' @param kappaWeighted \code{TRUE} or \code{FALSE} (default), provide a
+#'   weighted kappa using linear weights, with a confidence interval (tables
+#'   with more than 2 categories only). Categories are assumed to be ordered
 #' @param formula (optional) the formula to use, see the examples
 #' @return A results object containing:
 #' \tabular{llllll}{
@@ -606,6 +640,7 @@ contTablesPaired <- function(
     pcMarg = FALSE,
     agreement = FALSE,
     kappa = FALSE,
+    kappaWeighted = FALSE,
     formula) {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
@@ -666,7 +701,8 @@ contTablesPaired <- function(
         pcCol = pcCol,
         pcMarg = pcMarg,
         agreement = agreement,
-        kappa = kappa)
+        kappa = kappa,
+        kappaWeighted = kappaWeighted)
 
     analysis <- contTablesPairedClass$new(
         options = options,
